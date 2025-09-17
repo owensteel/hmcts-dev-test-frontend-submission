@@ -2,7 +2,7 @@ import { Application } from 'express';
 import axios from 'axios';
 
 export default function (app: Application): void {
-  app.get('/', async (req, res) => {
+  app.get('/', async (req: any, res: { render: (arg0: string, arg1: { example?: any; }) => void; }) => {
     try {
       // An example of connecting to the backend (a starting point)
       const response = await axios.get('http://localhost:4000/get-example-case');

@@ -1,18 +1,14 @@
 {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
-
 {% extends "template.njk" %}
 
-<!-- You may want to make further use of these components: https://design-system.service.gov.uk/components/
-but ultimately it is up to you -->
+<!-- This is the page for a single Case -->
+
 
 {% block content %}
-  <h1 class="govuk-heading-xl">Welcome to your dev test!</h1>
-
-  <!-- The freedom is yours. You can design the solution however you like, however there is a starting point provided
-  to ensure you have both services running. You may want to make use of the Gov UK Components:
-  https://design-system.service.gov.uk/components/ to add tabs and so forth :) -->
-
+  <h1 class="govuk-heading-xl">Manage a Case</h1>
   {% if example.id %}
+
+    <!-- Display case metadata -->
 
     {{ govukSummaryList({
       rows: [
@@ -116,6 +112,10 @@ but ultimately it is up to you -->
       ]
     }) }}
 
-  {% endif %}
+    <!-- Task manager -->
 
+    <h1 class="govuk-heading-l">Case tasks</h1>
+    <p class="govuk-body">Here you may manage the tasks for this case.</p>
+  
+  {% endif %}
 {% endblock %}
