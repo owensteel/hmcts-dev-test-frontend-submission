@@ -14,10 +14,7 @@ export default function (app: Application): void {
 
     // Handle form submit
     app.post('/tasks/new', async (req, res) => {
-        console.log(req.body)
-
         const { title, description } = req.body;
-
         try {
             await apiClient.createTask(
                 Number(caseId),
