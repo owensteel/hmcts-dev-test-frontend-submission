@@ -1,11 +1,11 @@
 import { Application } from 'express';
 import axios from 'axios';
+import { Case } from '../../models/Case';
 
 export default function (app: Application): void {
   app.get('/', async (req: any, res: {
     render: (arg0: string, arg1: {
-      case?: any;
-      tasks?: any;
+      case?: Case;
     }) => void;
   }) => {
     try {
@@ -14,8 +14,15 @@ export default function (app: Application): void {
       res.render(
         'home',
         {
-          case: caseDetailsResponse.data,
-          tasks: caseTasksResponse.data
+          case: {
+            id: caseDetailsResponse.data.id,
+            title: caseDetailsResponse.data.title,
+            description: caseDetailsResponse.data.description,
+            status: caseDetailsResponse.data.status,
+            createdAt: caseDetailsResponse.data.createdAt,
+            updatedAt: caseDetailsResponse.data.updatedAt,
+            tasks: caseTasksResponse.data
+          }
         }
       );
     } catch (error) {
