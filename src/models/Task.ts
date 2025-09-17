@@ -4,7 +4,7 @@ export interface Task {
     title: string;
     description?: string;
     status: string;         // e.g "todo", "in_progress", "done"
-    dueDate?: string;       // ISO date string
+    dueDate: string;       // ISO date string
     createdAt: string;      // ISO date string
     updatedAt?: string;
 }

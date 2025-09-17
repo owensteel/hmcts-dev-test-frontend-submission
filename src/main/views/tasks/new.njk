@@ -1,0 +1,40 @@
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/textarea/macro.njk" import govukTextarea %}
+{% from "govuk/components/date-input/macro.njk" import govukDateInput %}
+{% extends "template.njk" %}
+{% block content %}
+    <h1 class="govuk-heading-xl">Create a task for a case</h1>
+    <form method="post" action="/tasks/new">
+        {{ govukInput({
+    label: { text: "Task title" },
+    id: "title",
+    name: "title"
+  }) }}
+        {{ govukTextarea({
+    label: { text: "Task description" },
+    id: "description",
+    name: "description"
+  }) }}
+        {{ govukDateInput({
+  id: "due-date-time",
+  namePrefix: "due-date-time",
+  fieldset: {
+    legend: {
+      text: "When is this task due?",
+      isPageHeading: true,
+      classes: "govuk-fieldset__legend--l"
+    }
+  },
+  hint: {
+    text: "For example, 27 3 2026"
+  }
+}) }}
+        {{ govukButton({ text: "Create task" }) }}
+    </form>
+    {{ govukButton({
+        text: "Cancel",
+        classes: "govuk-button--secondary",
+        href: "/"
+    }) }}
+{% endblock %}

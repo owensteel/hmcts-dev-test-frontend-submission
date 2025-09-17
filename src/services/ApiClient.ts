@@ -27,7 +27,11 @@ export class ApiClient {
         return data;
     }
 
-    async createTask(caseId: number, taskData: { title: string; description: string }): Promise<Task> {
+    async createTask(caseId: number, taskData: {
+        title: string;
+        description: string;
+        dueDateTime: string
+    }): Promise<Task> {
         const response = await this.client.post(`/cases/${caseId}/tasks`, taskData);
         return response.data;
     }
