@@ -115,7 +115,11 @@
       href: "/tasks/new",
       isStartButton: true
     }) }}
-    <p class="govuk-body">There are {{ case.tasks.length }} tasks for this case.</p>
+    {% if case.tasks.length == 1 %}
+      <p class="govuk-body">There is 1 task for this case.</p>
+    {% else %}
+      <p class="govuk-body">There are {{ case.tasks.length }} tasks for this case.</p>
+    {% endif %}
     {% for task in case.tasks %}
       {{ govukSummaryList({
       classes: "govuk-!-margin-bottom-6",
