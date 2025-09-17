@@ -1,25 +1,20 @@
 import { Application, Request, Response } from "express";
-import axios from "axios";
 import { Case } from "../../models/Case";
-import { Task } from "../../models/Task";
-
-const API_BASE = "http://localhost:4000/api";
+import { ApiClient } from "../../services/ApiClient";
 
 export default function registerHomeRoute(app: Application): void {
+  const apiClient = new ApiClient();
+
   app.get("/", async (req: Request, res: Response) => {
     try {
       // Get case details
-      const { data: caseData } = await axios.get<Case>(
-        `${API_BASE}/cases/get-example-case`
-      );
+      const caseData = await apiClient.getExampleCase();
 
       // Get tasks for this case
-      const { data: tasksData } = await axios.get<Task[]>(
-        `${API_BASE}/cases/${caseData.id}/tasks`
-      );
+      const tasks = await apiClient.getTasksForCase(caseData.id);
 
       // Attach tasks to case object
-      const fullCase: Case = { ...caseData, tasks: tasksData };
+      const fullCase: Case = { ...caseData, tasks: tasks };
 
       res.render("home", { case: fullCase });
     } catch (error) {
