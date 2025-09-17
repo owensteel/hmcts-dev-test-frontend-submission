@@ -7,6 +7,7 @@ export default function registerHomeRoute(app: Application): void {
 
   app.get("/", async (req: Request, res: Response) => {
     try {
+
       // Get case details
       const caseData = await apiClient.getExampleCase();
 
@@ -21,9 +22,7 @@ export default function registerHomeRoute(app: Application): void {
       console.error("Error fetching case data:", error);
 
       // Show an error page instead of rendering empty home
-      res.status(500).render("home", {
-        case: undefined,
-      });
+      res.status(500).render("error");
     }
   });
 }
