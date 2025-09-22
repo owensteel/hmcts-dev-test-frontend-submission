@@ -126,19 +126,60 @@
       rows: [
         {
           key: { text: "Title" },
-          value: { text: task.title }
+          value: { text: task.title },
+          actions: {
+            items: [
+              {
+                href: "/tasks/edit/title/"+task.id,
+                text: "Change",
+                visuallyHiddenText: "Change task title?"
+              }
+            ]
+          }
         },
         {
           key: { text: "Description" },
-          value: { text: task.description }
+          value: { text: task.description },
+          actions: {
+            items: [
+              {
+                 href: "/tasks/edit/delete-description/"+task.id,
+                 text: "Delete",
+                 visuallyHiddenText: "Delete description"
+               },
+              {
+                href: "/tasks/edit/description/"+task.id,
+                text: "Change",
+                visuallyHiddenText: "Change task description?"
+              }
+            ]
+          }
         },
         {
           key: { text: "Status" },
-          value: { text: task.status }
+          value: { text: task.status },
+          actions: {
+            items: [
+              {
+                href: "/tasks/edit/status/"+task.id,
+                text: "Change",
+                visuallyHiddenText: "Change task status?"
+              }
+            ]
+          }
         },
         {
           key: { text: "Due Date" },
-          value: { text: task.dueDateTime }
+          value: { text: task.dueDateTime },
+          actions: {
+            items: [
+              {
+                href: "/tasks/edit/status/"+task.id,
+                text: "Change",
+                visuallyHiddenText: "Change due date?"
+              }
+            ]
+          }
         }
       ]
     }) }}
