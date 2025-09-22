@@ -1,11 +1,12 @@
-import axios, { AxiosInstance } from "axios";
-import { Case } from "../models/Case";
-import { Task } from "../models/Task";
+import { Case } from '../models/Case';
+import { Task } from '../models/Task';
+
+import axios, { AxiosInstance } from 'axios';
 
 export class ApiClient {
     private client: AxiosInstance;
 
-    constructor(baseURL: string = process.env.API_URL || "http://localhost:4000/api") {
+    constructor(baseURL: string = process.env.API_URL || 'http://localhost:4000/api') {
         this.client = axios.create({
             baseURL,
             timeout: 5000,
@@ -18,7 +19,7 @@ export class ApiClient {
     }
 
     async getExampleCase(): Promise<Case> {
-        const { data } = await this.client.get<Case>(`/cases/get-example-case`);
+        const { data } = await this.client.get<Case>('/cases/get-example-case');
         return data;
     }
 
