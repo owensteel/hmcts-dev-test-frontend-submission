@@ -1,5 +1,6 @@
-import { TaskForm } from '../../models/TaskForm';
+import { TaskCreateForm } from '../../models/TaskForm';
 import { TaskStatus } from '../../models/TaskStatus';
+import { TaskService } from '../../services/TaskService';
 
 import { Application } from 'express';
 
@@ -21,7 +22,7 @@ export default function (app: Application): void {
 
   // Handle submit for Task creation form
   app.post('/tasks/new', async (req, res) => {
-    const formData: TaskForm = new TaskForm(
+    const taskCreateForm: TaskCreateForm = new TaskCreateForm(
       req.body.title,
       `${req.body['due-date-time-year']}-${req.body['due-date-time-month'].padStart(2, '0')}-${req.body['due-date-time-day'].padStart(2, '0')}`,
       // We assume all new tasks are just "todo"
@@ -33,7 +34,7 @@ export default function (app: Application): void {
     );
 
     // Stop and display validation errors, if any
-    const formValidationErrors = formData.validateAndGetErrors();
+    const formValidationErrors = taskCreateForm.validateAndGetErrors();
     if (formValidationErrors.length > 0) {
       return res.render('../views/tasks/new.njk', {
         errors: formValidationErrors,
@@ -42,8 +43,9 @@ export default function (app: Application): void {
     }
 
     // Submit to backend
+    const taskService = new TaskService();
     try {
-      await formData.save();
+      await taskService.create(caseId, taskCreateForm);
       res.redirect('/');
     } catch (error) {
       // TODO: remove in prod
