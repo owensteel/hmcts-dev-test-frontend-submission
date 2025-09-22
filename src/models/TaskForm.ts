@@ -2,7 +2,7 @@ import { TaskStatus } from '../models/TaskStatus';
 
 import { TaskCreate } from './Task';
 
-export class TaskCreateForm implements TaskCreate {
+export class TaskForm implements TaskCreate {
   title: string;
   description?: string;
   status: TaskStatus;

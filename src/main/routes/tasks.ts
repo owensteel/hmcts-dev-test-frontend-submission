@@ -1,4 +1,4 @@
-import { TaskCreateForm } from '../../models/TaskForm';
+import { TaskForm } from '../../models/TaskForm';
 import { TaskStatus } from '../../models/TaskStatus';
 import { TaskService } from '../../services/TaskService';
 
@@ -22,7 +22,7 @@ export default function (app: Application): void {
 
   // Handle submit for Task creation form
   app.post('/tasks/new', async (req, res) => {
-    const taskCreateForm: TaskCreateForm = new TaskCreateForm(
+    const taskCreateForm: TaskForm = new TaskForm(
       req.body.title,
       `${req.body['due-date-time-year']}-${req.body['due-date-time-month'].padStart(2, '0')}-${req.body['due-date-time-day'].padStart(2, '0')}`,
       // We assume all new tasks are just "todo"
