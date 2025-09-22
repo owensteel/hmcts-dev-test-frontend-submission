@@ -1,4 +1,5 @@
 import { Case } from '../../models/Case';
+import { Task } from '../../models/Task';
 import { ApiClient } from '../../services/ApiClient';
 
 import { Application, Request, Response } from 'express';
@@ -12,10 +13,17 @@ export default function registerHomeRoute(app: Application): void {
       const caseData = await apiClient.getExampleCase();
 
       // Get tasks for this case
-      const tasks = await apiClient.getTasksForCase(caseData.id);
+      const unsortedTasks: Task[] = await apiClient.getTasksForCase(caseData.id);
+
+      // Sort tasks by dueDate ascending (soonest first)
+      const sortedTasks = unsortedTasks.sort((a, b) => {
+        const dateA = new Date(a.dueDateTime).getTime();
+        const dateB = new Date(b.dueDateTime).getTime();
+        return dateA - dateB;
+      });
 
       // Attach tasks to case object
-      const fullCase: Case = { ...caseData, tasks };
+      const fullCase: Case = { ...caseData, tasks: sortedTasks };
 
       res.render('home', { case: fullCase });
     } catch (error) {
