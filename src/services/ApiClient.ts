@@ -1,5 +1,5 @@
 import { Case } from '../models/Case';
-import { Task } from '../models/Task';
+import { Task, TaskUpdate } from '../models/Task';
 
 import axios, { AxiosInstance } from 'axios';
 
@@ -28,7 +28,7 @@ export class ApiClient {
     return data;
   }
 
-  async saveOrCreateTask(
+  async createTask(
     caseId: number,
     taskData: {
       title: string;
@@ -37,6 +37,16 @@ export class ApiClient {
     }
   ): Promise<Task> {
     const response = await this.client.post(`/cases/${caseId}/tasks`, taskData);
+    return response.data;
+  }
+
+  async getTask(taskId: number): Promise<Task> {
+    const { data } = await this.client.get<Task>(`/tasks/${taskId}`);
+    return data;
+  }
+
+  async updateTask(taskId: number, updates: TaskUpdate): Promise<Task> {
+    const response = await this.client.put<Task>(`/tasks/${taskId}`, updates);
     return response.data;
   }
 }
