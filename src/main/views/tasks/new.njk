@@ -2,21 +2,32 @@
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/textarea/macro.njk" import govukTextarea %}
 {% from "govuk/components/date-input/macro.njk" import govukDateInput %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 {% extends "template.njk" %}
 {% block content %}
-    <h1 class="govuk-heading-xl">Create a task for a case</h1>
-    <form method="post" action="/tasks/new">
-        {{ govukInput({
+  <h1 class="govuk-heading-xl">Create a task for a case</h1>
+  {% if errors %}
+    {{ govukErrorSummary({
+    titleText: "There is a problem",
+    errorList: errors
+  }) }}
+  {% endif %}
+  <form method="post" action="/tasks/new">
+    {{ govukInput({
     label: { text: "Task title" },
     id: "title",
-    name: "title"
+    name: "title",
+    value: values.title,
+    errorMessage: errors | findError('title')
   }) }}
-        {{ govukTextarea({
+    {{ govukTextarea({
     label: { text: "Task description" },
     id: "description",
-    name: "description"
+    name: "description",
+    value: values.description,
+    errorMessage: errors | findError('description')
   }) }}
-        {{ govukDateInput({
+    {{ govukDateInput({
   id: "due-date-time",
   namePrefix: "due-date-time",
   fieldset: {
@@ -28,11 +39,12 @@
   },
   hint: {
     text: "For example, 27 3 2026"
-  }
+  },
+  errorMessage: errors | findError('due-date-time')
 }) }}
-        {{ govukButton({ text: "Create task" }) }}
-    </form>
-    {{ govukButton({
+    {{ govukButton({ text: "Create task" }) }}
+  </form>
+  {{ govukButton({
         text: "Cancel",
         classes: "govuk-button--secondary",
         href: "/"
