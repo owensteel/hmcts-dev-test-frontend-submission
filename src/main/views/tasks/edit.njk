@@ -1,0 +1,58 @@
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/textarea/macro.njk" import govukTextarea %}
+{% from "govuk/components/date-input/macro.njk" import govukDateInput %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% extends "template.njk" %}
+{% block content %}
+  <h1 class="govuk-heading-xl">Edit a task</h1>
+  {% if errors %}
+    {{ govukErrorSummary({
+    titleText: "There is a problem",
+    errorList: errors
+  }) }}
+  {% endif %}
+  <form method="post" action="/tasks/edit/{{ taskId }}/{{ highlightedProperty }}">
+    {% if highlightedProperty=="title" %}
+      {{ govukInput({
+    label: { text: "Task title" },
+    id: "title",
+    name: "title",
+    value: values.title,
+    errorMessage: errors | findError('title')
+  }) }}
+    {% endif %}
+    {% if highlightedProperty=="description" %}
+      {{ govukTextarea({
+    label: { text: "Task description" },
+    id: "description",
+    name: "description",
+    value: values.description,
+    errorMessage: errors | findError('description')
+  }) }}
+    {% endif %}
+    {% if highlightedProperty=="due-date" %}
+      {{ govukDateInput({
+    id: "due-date-time",
+    namePrefix: "due-date-time",
+    fieldset: {
+      legend: {
+        text: "When is this task due?",
+        isPageHeading: true,
+        classes: "govuk-fieldset__legend--l"
+      }
+    },
+    hint: {
+      text: "For example, 27 3 2026"
+    },
+    errorMessage: errors | findError('due-date-time')
+  }) }}
+    {% endif %}
+    {{ govukButton({ text: "Update task" }) }}
+  </form>
+  {{ govukButton({
+        text: "Cancel",
+        classes: "govuk-button--secondary",
+        href: "/"
+    }) }}
+{% endblock %}

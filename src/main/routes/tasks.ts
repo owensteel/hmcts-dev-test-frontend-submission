@@ -1,13 +1,79 @@
-import { TaskForm } from '../../models/TaskForm';
+import { TaskCreateForm } from '../../models/TaskCreateForm';
 import { TaskStatus } from '../../models/TaskStatus';
+import { TaskUpdateForm } from '../../models/TaskUpdateForm';
 import { TaskService } from '../../services/TaskService';
 
 import { Application } from 'express';
 
 export default function (app: Application): void {
+  const taskService = new TaskService();
+
   // ID of the example case we're working with
   // Fixed for this example scenario
   const caseId = 1;
+
+  // Task editing form
+  app.get('/tasks/edit/:taskId/:highlightedProperty', async (req, res) => {
+    const { taskId, highlightedProperty } = req.params;
+
+    // Check task ID is valid
+    if (isNaN(parseInt(taskId))) {
+      res.redirect('/');
+    }
+
+    const taskToEdit = await taskService.get(parseInt(taskId));
+
+    res.render('../views/tasks/edit.njk', {
+      taskId,
+      errors: null,
+      values: {
+        title: taskToEdit.title,
+        description: taskToEdit.description,
+      },
+      highlightedProperty,
+    });
+  });
+
+  // Handle submit for Task edit form
+  app.post('/tasks/edit/:taskId/:highlightedProperty', async (req, res) => {
+    const { taskId, highlightedProperty } = req.params;
+
+    const taskUpdateForm: TaskUpdateForm = new TaskUpdateForm();
+    // Add properties to form depending on what is submitted
+    if ('title' in req.body) {
+      taskUpdateForm.title = req.body.title;
+    }
+    if ('description' in req.body) {
+      taskUpdateForm.description = req.body.description;
+    }
+    if ('status' in req.body) {
+      taskUpdateForm.status = req.body.status;
+    }
+    if ('due-date-time-year' in req.body && 'due-date-time-month' in req.body && 'due-date-time-day' in req.body) {
+      const dateInputsCombined = `${req.body['due-date-time-year']}-${req.body['due-date-time-month'].padStart(2, '0')}-${req.body['due-date-time-day'].padStart(2, '0')}`;
+      taskUpdateForm.dueDateTime = dateInputsCombined;
+    }
+
+    // Stop and display validation errors, if any
+    const formValidationErrors = taskUpdateForm.validateAndGetErrors();
+    if (formValidationErrors.length > 0) {
+      return res.render('../views/tasks/edit.njk', {
+        taskId,
+        errors: formValidationErrors,
+        values: req.body,
+        highlightedProperty,
+      });
+    } else {
+      // Submit to backend
+      try {
+        await taskService.update(Number(taskId), taskUpdateForm);
+        res.redirect('/');
+      } catch (error) {
+        console.error(error);
+        res.status(500).render('error');
+      }
+    }
+  });
 
   // Task creation form
   app.get('/tasks/new', (req, res) => {
@@ -22,7 +88,7 @@ export default function (app: Application): void {
 
   // Handle submit for Task creation form
   app.post('/tasks/new', async (req, res) => {
-    const taskCreateForm: TaskForm = new TaskForm(
+    const taskCreateForm: TaskCreateForm = new TaskCreateForm(
       req.body.title,
       `${req.body['due-date-time-year']}-${req.body['due-date-time-month'].padStart(2, '0')}-${req.body['due-date-time-day'].padStart(2, '0')}`,
       // We assume all new tasks are just "todo"
@@ -40,18 +106,17 @@ export default function (app: Application): void {
         errors: formValidationErrors,
         values: req.body,
       });
-    }
-
-    // Submit to backend
-    const taskService = new TaskService();
-    try {
-      await taskService.create(caseId, taskCreateForm);
-      res.redirect('/');
-    } catch (error) {
-      // TODO: remove in prod
-      console.error(error.response);
-      // Show an error page instead of rendering empty home
-      res.status(500).render('error');
+    } else {
+      // Submit to backend
+      try {
+        await taskService.create(caseId, taskCreateForm);
+        res.redirect('/');
+      } catch (error) {
+        // TODO: remove in prod
+        console.error(error.response);
+        // Show an error page instead of rendering empty home
+        res.status(500).render('error');
+      }
     }
   });
 }

@@ -130,7 +130,7 @@
           actions: {
             items: [
               {
-                href: "/tasks/edit/title/"+task.id,
+                href: "/tasks/edit/"+task.id+"/title",
                 text: "Change",
                 visuallyHiddenText: "Change task title?"
               }
@@ -143,12 +143,12 @@
           actions: {
             items: [
               {
-                 href: "/tasks/edit/delete-description/"+task.id,
+                 href: "/tasks/edit/"+task.id+"/delete-description",
                  text: "Delete",
                  visuallyHiddenText: "Delete description"
-               },
+              },
               {
-                href: "/tasks/edit/description/"+task.id,
+                href: "/tasks/edit/"+task.id+"/description",
                 text: "Change",
                 visuallyHiddenText: "Change task description?"
               }
@@ -161,7 +161,7 @@
           actions: {
             items: [
               {
-                href: "/tasks/edit/status/"+task.id,
+                href: "/tasks/edit/"+task.id+"/status",
                 text: "Change",
                 visuallyHiddenText: "Change task status?"
               }
@@ -174,7 +174,7 @@
           actions: {
             items: [
               {
-                href: "/tasks/edit/status/"+task.id,
+                href: "/tasks/edit/"+task.id+"/due-date",
                 text: "Change",
                 visuallyHiddenText: "Change due date?"
               }
