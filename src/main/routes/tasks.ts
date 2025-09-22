@@ -1,14 +1,14 @@
-import { ApiClient } from '../../services/ApiClient';
+import { TaskForm } from '../../models/TaskForm';
+import { TaskStatus } from '../../models/TaskStatus';
 
 import { Application } from 'express';
 
 export default function (app: Application): void {
-  const apiClient = new ApiClient();
-
   // ID of the example case we're working with
+  // Fixed for this example scenario
   const caseId = 1;
 
-  // Show the form
+  // Task creation form
   app.get('/tasks/new', (req, res) => {
     res.render('../views/tasks/new.njk', {
       errors: null,
@@ -19,37 +19,35 @@ export default function (app: Application): void {
     });
   });
 
-  // Handle form submit
+  // Handle submit for Task creation form
   app.post('/tasks/new', async (req, res) => {
-    const errors: { text: string; href: string }[] = [];
-    const { title, description } = req.body;
-    const dueDate = new Date(
-      `${req.body['due-date-time-year']}-${req.body['due-date-time-month'].padStart(2, '0')}-${req.body['due-date-time-day'].padStart(2, '0')}`
+    const formData: TaskForm = new TaskForm(
+      req.body.title,
+      `${req.body['due-date-time-year']}-${req.body['due-date-time-month'].padStart(2, '0')}-${req.body['due-date-time-day'].padStart(2, '0')}`,
+      // We assume all new tasks are just "todo"
+      TaskStatus.TODO,
+      caseId,
+      req.body.description
+      // Leave ID property blank so we create this task
+      // and leave the ID generation to the backend
     );
 
-    if (!title || title.trim() === '') {
-      errors.push({ text: 'Enter a task title', href: '#title' });
-    }
-
-    if (isNaN(dueDate.getTime()) || Date.now() > dueDate.getTime()) {
-      errors.push({ text: 'Enter a valid due date in the future', href: '#due-date-time' });
-    }
-
-    if (errors.length > 0) {
+    // Stop and display validation errors, if any
+    const formValidationErrors = formData.validateAndGetErrors();
+    if (formValidationErrors.length > 0) {
       return res.render('../views/tasks/new.njk', {
-        errors,
+        errors: formValidationErrors,
         values: req.body,
       });
     }
 
+    // Submit to backend
     try {
-      await apiClient.createTask(Number(caseId), {
-        title,
-        description,
-        dueDateTime: dueDate.toISOString(),
-      });
+      await formData.save();
       res.redirect('/');
     } catch (error) {
+      // TODO: remove in prod
+      console.error(error.response);
       // Show an error page instead of rendering empty home
       res.status(500).render('error');
     }
