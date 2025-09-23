@@ -22,7 +22,11 @@
   <h1 class="govuk-heading-xl">View a task</h1>
   {% if task.id %}
     {{ govukSummaryList({
-      classes: "govuk-!-margin-bottom-6",
+      card: {
+        title: {
+          text: "Task ID: " + task.id
+        }
+      },
       rows: [
         {
           key: { text: "Title" },
