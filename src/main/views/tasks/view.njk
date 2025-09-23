@@ -3,21 +3,27 @@
 {% from "govuk/components/pagination/macro.njk" import govukPagination %}
 {% from "govuk/components/select/macro.njk" import govukSelect %}
 {% from "govuk/components/table/macro.njk" import govukTable %}
+{% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
 {% extends "template.njk" %}
 <!-- This is the page for a single Task -->
 {% block content %}
-    <h1 class="govuk-heading-xl">View a task</h1>
-    {% if task.id %}
-        {{ govukSummaryList({
+  {{ govukBreadcrumbs({
+    items: [
+      {
+        text: "Case",
+        href: "/"
+      },
+      {
+        text: "View task",
+        href: ""
+      }
+    ]
+  }) }}
+  <h1 class="govuk-heading-xl">View a task</h1>
+  {% if task.id %}
+    {{ govukSummaryList({
       classes: "govuk-!-margin-bottom-6",
       rows: [
-        {
-          key: { text: "Case ID" },
-          value: { text: task.caseId },
-          actions: {
-            items: []
-          }
-        },
         {
           key: { text: "Title" },
           value: { text: task.title },
@@ -77,5 +83,5 @@
         }
       ]
     }) }}
-    {% endif %}
+  {% endif %}
 {% endblock %}
