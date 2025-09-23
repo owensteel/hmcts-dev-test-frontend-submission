@@ -1,6 +1,9 @@
+import { Task } from '../../models/Task';
 import { TaskCreateForm } from '../../models/TaskCreateForm';
+import { TaskPage } from '../../models/TaskPage';
 import { TaskStatus } from '../../models/TaskStatus';
 import { TaskUpdateForm } from '../../models/TaskUpdateForm';
+import { ApiClient } from '../../services/ApiClient';
 import { TaskService } from '../../services/TaskService';
 
 import { Application } from 'express';
@@ -13,7 +16,40 @@ const TASK_STATUS_MAP_TO_USER_FRIENDLY_VALUES: Record<string, string> = {
 };
 
 export default function (app: Application): void {
+  const apiClient = new ApiClient();
   const taskService = new TaskService();
+
+  const presetCaseId = 1;
+
+  // Tasks index
+  app.get('/tasks', async (req, res) => {
+    // Get query parameters (they come as strings, so cast)
+    const page = req.query.page ? Number(req.query.page) : 0;
+    const size = req.query.size ? Number(req.query.size) : 5;
+    const sortBy = (req.query.sortBy as string) || 'dueDateTime';
+    const direction = (req.query.direction as 'asc' | 'desc') || 'asc';
+
+    // Get pre-sorted tasks for this case
+    const taskPage: TaskPage<Task> = await apiClient.getTasksForCase(presetCaseId, page, size, sortBy, direction);
+
+    // Precompute the list of numbered page links
+    const paginationItems = [];
+    for (let i = 0; i < taskPage.totalPages; i++) {
+      paginationItems.push({
+        number: i + 1,
+        href: `/tasks/?page=${i}&sortBy=${sortBy}&direction=${direction}`,
+        current: i === taskPage.number,
+      });
+    }
+
+    res.render('../views/tasks/index.njk', {
+      taskPage,
+      totalPages: taskPage.totalPages,
+      sortBy,
+      direction,
+      paginationItems,
+    });
+  });
 
   // Task display
   app.get('/tasks/:taskId', async (req, res) => {

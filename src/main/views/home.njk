@@ -6,231 +6,130 @@
 {% extends "template.njk" %}
 <!-- This is the page for a single Case -->
 {% block content %}
-  <h1 class="govuk-heading-xl">Manage a Case</h1>
   {% if case.id %}
-    <!-- Display case metadata -->
-    <h2 class="govuk-heading-l">Case details</h2>
-    {{ govukSummaryList({
-      rows: [
-        {
-          key: {
-            text: "ID"
-          },
-          value: {
-            text: case.id
-          },
-          actions: {
-            items: [
-              {
-                href: "#",
-                text: "Change",
-                visuallyHiddenText: "change case id ?!"
-              }
-            ]
-          }
-        },
-        {
-          key: {
-            text: "Case Number"
-          },
-          value: {
-            text: case.caseNumber
-          },
-          actions: {
-            items: [
-              {
-                href: "#",
-                text: "Change",
-                visuallyHiddenText: "change case number"
-              }
-            ]
-          }
-        },
-        {
-          key: {
-            text: "Title"
-          },
-          value: {
-            html: case.title
-          },
-          actions: {
-            items: [
-              {
-                href: "#",
-                text: "Change",
-                visuallyHiddenText: "change case title"
-              }
-            ]
-          }
-        },
-        {
-          key: {
-            text: "Description"
-          },
-          value: {
-            html: case.description
-          },
-          actions: {
-            items: [
-               {
-                 href: "#",
-                 text: "Delete",
-                 visuallyHiddenText: "Delete description"
-               },
-               {
-                 href: "#",
-                 text: "Change",
-                 visuallyHiddenText: "Change description"
-               }
-            ]
-          }
-        },
-        {
-          key: {
-            text: "Status"
-          },
-          value: {
-            html: case.status
-          },
-          actions: {
-            items: [
-            ]
-          }
-        },
-        {
-          key: {
-           text: "Created Date"
-          },
-          value: {
-           html: case.createdDate
-          },
-          actions: {
-           items: [
-           ]
-          }
-        }
-      ]
-    }) }}
-    <!-- Task manager -->
-    <h2 class="govuk-heading-l">Case tasks</h2>
-    <p class="govuk-body">Here you may manage the tasks for this case.</p>
-    {{ govukButton({
-      text: "Create a task",
-      href: "/tasks/new/"+case.id,
-      isStartButton: true
-    }) }}
-    {% if taskPage.totalElements == 1 %}
-      <p class="govuk-body">There is 1 task for this case.</p>
-    {% else %}
-      <p class="govuk-body">There are {{ taskPage.totalElements }} tasks for this case.</p>
-    {% endif %}
-    <form method="get" action="">
-      <div class="govuk-grid-row">
-        <div class="govuk-grid-column-one-third">
-          {{ govukSelect({
-                id: "sortBy",
-                name: "sortBy",
-                label: {
-                  text: "Sort tasks by"
-                },
+    <h1 class="govuk-heading-xl">Manage a Case</h1>
+    <div class="govuk-tabs" data-module="govuk-tabs">
+      <h2 class="govuk-tabs__title">
+        Contents
+      </h2>
+      <ul class="govuk-tabs__list">
+        <li class="govuk-tabs__list-item govuk-tabs__list-item--selected">
+          <a class="govuk-tabs__tab" href="/">
+            Case details
+          </a>
+        </li>
+        <li class="govuk-tabs__list-item">
+          <a class="govuk-tabs__tab" href="/tasks">
+            Case tasks
+          </a>
+        </li>
+      </ul>
+      <div
+        class="govuk-tabs__panel">
+        <!-- Display case metadata -->
+        <h2 class="govuk-heading-l">Case details</h2>
+        {{ govukSummaryList({
+          rows: [
+            {
+              key: {
+                text: "ID"
+              },
+              value: {
+                text: case.id
+              },
+              actions: {
                 items: [
                   {
-                    value: "dueDateTime",
-                    text: "Due date",
-                    selected: sortBy == "dueDateTime"
-                  },
-                  {
-                    value: "status",
-                    text: "Status",
-                    selected: sortBy == "status"
-                  },
-                  {
-                    value: "title",
-                    text: "Title A-Z",
-                    selected: values.status == "title"
+                    href: "#",
+                    text: "Change",
+                    visuallyHiddenText: "change case id ?!"
                   }
                 ]
-              }) }}
-        </div>
-        <div class="govuk-grid-column-one-third">
-          {{ govukSelect({
-                id: "direction",
-                name: "direction",
-                label: {
-                  text: "Sort tasks in what order"
-                },
+              }
+            },
+            {
+              key: {
+                text: "Case Number"
+              },
+              value: {
+                text: case.caseNumber
+              },
+              actions: {
                 items: [
                   {
-                    value: "asc",
-                    text: "Ascending order",
-                    selected: direction == "asc"
-                  },
-                  {
-                    value: "desc",
-                    text: "Descending order",
-                    selected: direction == "desc"
+                    href: "#",
+                    text: "Change",
+                    visuallyHiddenText: "change case number"
                   }
                 ]
-              }) }}
-        </div>
-        <div class="govuk-grid-column-one-third">
-          {{ govukButton({ text: "Apply sort" }) }}
-        </div>
+              }
+            },
+            {
+              key: {
+                text: "Title"
+              },
+              value: {
+                html: case.title
+              },
+              actions: {
+                items: [
+                  {
+                    href: "#",
+                    text: "Change",
+                    visuallyHiddenText: "change case title"
+                  }
+                ]
+              }
+            },
+            {
+              key: {
+                text: "Description"
+              },
+              value: {
+                html: case.description
+              },
+              actions: {
+                items: [
+                  {
+                    href: "#",
+                    text: "Delete",
+                    visuallyHiddenText: "Delete description"
+                  },
+                  {
+                    href: "#",
+                    text: "Change",
+                    visuallyHiddenText: "Change description"
+                  }
+                ]
+              }
+            },
+            {
+              key: {
+                text: "Status"
+              },
+              value: {
+                html: case.status
+              },
+              actions: {
+                items: [
+                ]
+              }
+            },
+            {
+              key: {
+              text: "Created Date"
+              },
+              value: {
+              html: case.createdDate
+              },
+              actions: {
+              items: [
+              ]
+              }
+            }
+          ]
+        }) }}
       </div>
-      <input type="hidden" name="page" value="0"/>
-    </form>
-    <table class="govuk-table">
-      <thead class="govuk-table__head">
-        <tr class="govuk-table__row">
-          <th class="govuk-table__header" scope="col">
-            Title
-          </th>
-          <th class="govuk-table__header" scope="col">
-            Due date
-          </th>
-          <th class="govuk-table__header" scope="col">
-            Status
-          </th>
-          <th class="govuk-table__header" scope="col">
-            Actions
-          </th>
-        </tr>
-      </thead>
-      <tbody class="govuk-table__body">
-        {% for task in taskPage.content %}
-          <tr class="govuk-table__row">
-            <td class="govuk-table__cell" style="width: 25%">
-              {{ task.title }}
-            </td>
-            <td class="govuk-table__cell" style="width: 25%">
-              {{ task.dueDateTime }}
-            </td>
-            <td class="govuk-table__cell" style="width: 12.5%">
-              {% if task.status == "DONE" %}
-                {{ govukTag({ text: "Done", classes: "govuk-tag--green" }) }}
-              {% elif task.status == "IN_PROGRESS" %}
-                {{ govukTag({ text: "In progress", classes: "govuk-tag--blue" }) }}
-              {% else %}
-                {{ govukTag({ text: "To do", classes: "govuk-tag--grey" }) }}
-              {% endif %}
-            </td>
-            <td class="govuk-table__cell" style="width: 12.5%">
-              <p class="govuk-body">
-                <a href="/tasks/{{ task.id }}" class="govuk-link">View and Edit</a>
-              </p>
-            </td>
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-    {{ govukPagination({
-      previous: taskPage.number > 0 and {
-        "href": "./?page=" + (taskPage.number - 1) + "&sortBy=" + sortBy + "&direction=" + direction
-      },
-      next: taskPage.number < totalPages - 1 and {
-        "href": "./?page=" + (taskPage.number + 1) + "&sortBy=" + sortBy + "&direction=" + direction
-      },
-      items: paginationItems
-    }) }}
+    </div>
   {% endif %}
 {% endblock %}
