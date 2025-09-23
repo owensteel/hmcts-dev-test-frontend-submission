@@ -47,7 +47,7 @@
     errorList: errors
   }) }}
   {% endif %}
-  <form method="post" action="/tasks/edit/{{ taskId }}/{{ highlightedProperty }}">
+  <form method="post" action="/tasks/{{ taskId }}/edit/{{ highlightedProperty }}">
     {{ csrfProtection(csrfToken) }}
     {% if highlightedProperty=="title" %}
       {{ govukInput({
@@ -123,6 +123,6 @@
   {{ govukButton({
         text: "Cancel",
         classes: "govuk-button--secondary",
-        href: "/"
+        href: "/tasks/"+taskId
     }) }}
 {% endblock %}

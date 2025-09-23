@@ -2,6 +2,7 @@
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/pagination/macro.njk" import govukPagination %}
 {% from "govuk/components/select/macro.njk" import govukSelect %}
+{%- from "govuk/components/tag/macro.njk" import govukTag -%}
 {% extends "template.njk" %}
 <!-- This is the page for a single Case -->
 {% block content %}
@@ -177,70 +178,47 @@
       </div>
       <input type="hidden" name="page" value="0"/>
     </form>
-    {% for task in taskPage.content %}
-      {{ govukSummaryList({
-      classes: "govuk-!-margin-bottom-6",
-      rows: [
-        {
-          key: { text: "Title" },
-          value: { text: task.title },
-          actions: {
-            items: [
-              {
-                href: "/tasks/edit/"+task.id+"/title",
-                text: "Change",
-                visuallyHiddenText: "Change task title?"
-              }
-            ]
-          }
-        },
-        {
-          key: { text: "Description" },
-          value: { text: task.description },
-          actions: {
-            items: [
-              {
-                 href: "/tasks/edit/"+task.id+"/delete-description",
-                 text: "Delete",
-                 visuallyHiddenText: "Delete description"
-              },
-              {
-                href: "/tasks/edit/"+task.id+"/description",
-                text: "Change",
-                visuallyHiddenText: "Change task description?"
-              }
-            ]
-          }
-        },
-        {
-          key: { text: "Status" },
-          value: { text: task.status },
-          actions: {
-            items: [
-              {
-                href: "/tasks/edit/"+task.id+"/status",
-                text: "Change",
-                visuallyHiddenText: "Change task status?"
-              }
-            ]
-          }
-        },
-        {
-          key: { text: "Due Date" },
-          value: { text: task.dueDateTime },
-          actions: {
-            items: [
-              {
-                href: "/tasks/edit/"+task.id+"/due-date",
-                text: "Change",
-                visuallyHiddenText: "Change due date?"
-              }
-            ]
-          }
-        }
-      ]
-    }) }}
-    {% endfor %}
+    <table class="govuk-table">
+      <thead class="govuk-table__head">
+        <tr class="govuk-table__row">
+          <th class="govuk-table__header" scope="col">
+            Title
+          </th>
+          <th class="govuk-table__header" scope="col">
+            Due date
+          </th>
+          <th class="govuk-table__header" scope="col">
+            Status
+          </th>
+          <th class="govuk-table__header" scope="col">
+            Actions
+          </th>
+        </tr>
+      </thead>
+      <tbody class="govuk-table__body">
+        {% for task in taskPage.content %}
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell">
+              {{ task.title }}
+            </td>
+            <td class="govuk-table__cell">
+              {{ task.dueDateTime }}
+            </td>
+            <td class="govuk-table__cell">
+              {{ govukTag({
+                  text: task.status,
+                  classes: "govuk-tag--grey"
+              }) }}
+            </td>
+            <td class="govuk-table__cell">
+              <p class="govuk-body">
+                <a href="/tasks/{{ task.id }}" class="govuk-link">View and edit</a>
+              </p>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
     {{ govukPagination({
       previous: taskPage.number > 0 and {
         "href": "./?page=" + (taskPage.number - 1) + "&sortBy=" + sortBy + "&direction=" + direction

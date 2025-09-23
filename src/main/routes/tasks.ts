@@ -8,8 +8,25 @@ import { Application } from 'express';
 export default function (app: Application): void {
   const taskService = new TaskService();
 
+  // Task display
+  app.get('/tasks/:taskId', async (req, res) => {
+    const { taskId } = req.params;
+
+    // Check task ID is valid
+    if (isNaN(parseInt(taskId))) {
+      res.redirect('/');
+    }
+
+    try {
+      const task = await taskService.get(parseInt(taskId));
+      res.render('../views/tasks/view.njk', { task });
+    } catch (e) {
+      res.redirect('/');
+    }
+  });
+
   // Task editing form
-  app.get('/tasks/edit/:taskId/:highlightedProperty', async (req, res) => {
+  app.get('/tasks/:taskId/edit/:highlightedProperty', async (req, res) => {
     const { taskId, highlightedProperty } = req.params;
 
     // Check task ID is valid
@@ -18,7 +35,6 @@ export default function (app: Application): void {
     }
 
     const taskToEdit = await taskService.get(parseInt(taskId));
-
     res.render('../views/tasks/edit.njk', {
       taskId,
       errors: null,
@@ -38,7 +54,7 @@ export default function (app: Application): void {
   });
 
   // Handle submit for Task edit form
-  app.post('/tasks/edit/:taskId/:highlightedProperty', async (req, res) => {
+  app.post('/tasks/:taskId/edit/:highlightedProperty', async (req, res) => {
     const { taskId, highlightedProperty } = req.params;
 
     const taskUpdateForm: TaskUpdateForm = new TaskUpdateForm();
