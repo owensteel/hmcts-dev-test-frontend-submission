@@ -26,14 +26,15 @@ export default function (app: Application): void {
     res.render('../views/tasks/edit.njk', {
       taskId,
       errors: null,
+      // Values to display in the input(s)
       values: {
         title: taskToEdit.title,
         description: taskToEdit.description,
         status: taskToEdit.status,
       },
-      // So the title for the preview of the task doesn't
-      // get mixed up with the title input value
-      staticValues: {
+      // Original values that will remain as
+      // what is actually in the database
+      originalValues: {
         title: taskToEdit.title,
       },
       highlightedProperty,
@@ -63,12 +64,16 @@ export default function (app: Application): void {
     // Stop and display validation errors, if any
     const formValidationErrors = taskUpdateForm.validateAndGetErrors();
     if (formValidationErrors.length > 0) {
+      // Make sure original values are up-to-date
       const taskToEdit = await taskService.get(parseInt(taskId));
       return res.render('../views/tasks/edit.njk', {
         taskId,
         errors: formValidationErrors,
+        // Values to display in the inputs, will now reflect
+        // user's submission by this point
         values: req.body,
-        staticValues: {
+        // Original values, what the task's data currently is
+        originalValues: {
           title: taskToEdit.title,
         },
         highlightedProperty,
