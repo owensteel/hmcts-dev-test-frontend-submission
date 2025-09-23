@@ -62,7 +62,7 @@ export default function (app: Application): void {
         taskStatusUserFriendly: TASK_STATUS_MAP_TO_USER_FRIENDLY_VALUES[task.status],
       });
     } catch (e) {
-      res.status(500).render('error');
+      res.status(404).render('not-found');
     }
   });
 
@@ -70,23 +70,27 @@ export default function (app: Application): void {
   app.get('/tasks/:taskId/edit/:highlightedProperty', async (req, res) => {
     const { taskId, highlightedProperty } = req.params;
 
-    const taskToEdit = await taskService.get(parseInt(taskId));
-    res.render('../views/tasks/edit.njk', {
-      taskId,
-      errors: null,
-      // Values to display in the input(s)
-      values: {
-        title: taskToEdit.title,
-        description: taskToEdit.description,
-        status: taskToEdit.status,
-      },
-      // Original values that will remain as
-      // what is actually in the database
-      originalValues: {
-        title: taskToEdit.title,
-      },
-      highlightedProperty,
-    });
+    try {
+      const taskToEdit = await taskService.get(parseInt(taskId));
+      res.render('../views/tasks/edit.njk', {
+        taskId,
+        errors: null,
+        // Values to display in the input(s)
+        values: {
+          title: taskToEdit.title,
+          description: taskToEdit.description,
+          status: taskToEdit.status,
+        },
+        // Original values that will remain as
+        // what is actually in the database
+        originalValues: {
+          title: taskToEdit.title,
+        },
+        highlightedProperty,
+      });
+    } catch (e) {
+      res.status(404).render('not-found');
+    }
   });
 
   // Handle submit for Task edit form
