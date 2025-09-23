@@ -36,6 +36,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@hmcts/info-provider", "npm:1.2.1"],\
             ["@hmcts/nodejs-healthcheck", "npm:1.8.5"],\
             ["@hmcts/properties-volume", "npm:1.1.0"],\
+            ["@ministryofjustice/frontend", "virtual:3a02cceef93055271d0890b855d0c93a770c9c876ee9b808cf9e23d8d1b8581b5b6efcfb80a9768d650dfa22f93777eca81ae9ef4de2301b22a7619649eb692a#npm:5.2.0"],\
             ["@types/body-parser", "npm:1.19.5"],\
             ["@types/chai-as-promised", "npm:7.1.8"],\
             ["@types/config", "npm:3.3.4"],\
@@ -75,7 +76,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["express", "npm:4.19.2"],\
             ["express-nunjucks", "virtual:3a02cceef93055271d0890b855d0c93a770c9c876ee9b808cf9e23d8d1b8581b5b6efcfb80a9768d650dfa22f93777eca81ae9ef4de2301b22a7619649eb692a#npm:3.1.2"],\
             ["glob", "npm:10.4.1"],\
-            ["govuk-frontend", "npm:4.8.0"],\
+            ["govuk-frontend", "npm:5.12.0"],\
             ["html-webpack-plugin", "virtual:3a02cceef93055271d0890b855d0c93a770c9c876ee9b808cf9e23d8d1b8581b5b6efcfb80a9768d650dfa22f93777eca81ae9ef4de2301b22a7619649eb692a#npm:5.6.0"],\
             ["husky", "npm:9.0.11"],\
             ["jest", "virtual:3a02cceef93055271d0890b855d0c93a770c9c876ee9b808cf9e23d8d1b8581b5b6efcfb80a9768d650dfa22f93777eca81ae9ef4de2301b22a7619649eb692a#npm:29.7.0"],\
@@ -4149,6 +4150,32 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@microsoft-applicationinsights-web-snippet-npm-1.1.2-ba30aeca10-229bfb6edc.zip/node_modules/@microsoft/applicationinsights-web-snippet/",\
           "packageDependencies": [\
             ["@microsoft/applicationinsights-web-snippet", "npm:1.1.2"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@ministryofjustice/frontend", [\
+        ["npm:5.2.0", {\
+          "packageLocation": "./.yarn/cache/@ministryofjustice-frontend-npm-5.2.0-4925f39ee2-a7252886d6.zip/node_modules/@ministryofjustice/frontend/",\
+          "packageDependencies": [\
+            ["@ministryofjustice/frontend", "npm:5.2.0"]\
+          ],\
+          "linkType": "SOFT"\
+        }],\
+        ["virtual:3a02cceef93055271d0890b855d0c93a770c9c876ee9b808cf9e23d8d1b8581b5b6efcfb80a9768d650dfa22f93777eca81ae9ef4de2301b22a7619649eb692a#npm:5.2.0", {\
+          "packageLocation": "./.yarn/__virtual__/@ministryofjustice-frontend-virtual-4006550efd/0/cache/@ministryofjustice-frontend-npm-5.2.0-4925f39ee2-a7252886d6.zip/node_modules/@ministryofjustice/frontend/",\
+          "packageDependencies": [\
+            ["@ministryofjustice/frontend", "virtual:3a02cceef93055271d0890b855d0c93a770c9c876ee9b808cf9e23d8d1b8581b5b6efcfb80a9768d650dfa22f93777eca81ae9ef4de2301b22a7619649eb692a#npm:5.2.0"],\
+            ["@types/govuk-frontend", null],\
+            ["@types/moment", null],\
+            ["govuk-frontend", "npm:5.12.0"],\
+            ["moment", null]\
+          ],\
+          "packagePeers": [\
+            "@types/govuk-frontend",\
+            "@types/moment",\
+            "govuk-frontend",\
+            "moment"\
           ],\
           "linkType": "HARD"\
         }]\
@@ -11920,10 +11947,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["govuk-frontend", [\
-        ["npm:4.8.0", {\
-          "packageLocation": "./.yarn/cache/govuk-frontend-npm-4.8.0-48d4f1031d-e255f924f3.zip/node_modules/govuk-frontend/",\
+        ["npm:5.12.0", {\
+          "packageLocation": "./.yarn/cache/govuk-frontend-npm-5.12.0-98a82f2494-8dcfef7efa.zip/node_modules/govuk-frontend/",\
           "packageDependencies": [\
-            ["govuk-frontend", "npm:4.8.0"]\
+            ["govuk-frontend", "npm:5.12.0"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -12089,6 +12116,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@hmcts/info-provider", "npm:1.2.1"],\
             ["@hmcts/nodejs-healthcheck", "npm:1.8.5"],\
             ["@hmcts/properties-volume", "npm:1.1.0"],\
+            ["@ministryofjustice/frontend", "virtual:3a02cceef93055271d0890b855d0c93a770c9c876ee9b808cf9e23d8d1b8581b5b6efcfb80a9768d650dfa22f93777eca81ae9ef4de2301b22a7619649eb692a#npm:5.2.0"],\
             ["@types/body-parser", "npm:1.19.5"],\
             ["@types/chai-as-promised", "npm:7.1.8"],\
             ["@types/config", "npm:3.3.4"],\
@@ -12128,7 +12156,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["express", "npm:4.19.2"],\
             ["express-nunjucks", "virtual:3a02cceef93055271d0890b855d0c93a770c9c876ee9b808cf9e23d8d1b8581b5b6efcfb80a9768d650dfa22f93777eca81ae9ef4de2301b22a7619649eb692a#npm:3.1.2"],\
             ["glob", "npm:10.4.1"],\
-            ["govuk-frontend", "npm:4.8.0"],\
+            ["govuk-frontend", "npm:5.12.0"],\
             ["html-webpack-plugin", "virtual:3a02cceef93055271d0890b855d0c93a770c9c876ee9b808cf9e23d8d1b8581b5b6efcfb80a9768d650dfa22f93777eca81ae9ef4de2301b22a7619649eb692a#npm:5.6.0"],\
             ["husky", "npm:9.0.11"],\
             ["jest", "virtual:3a02cceef93055271d0890b855d0c93a770c9c876ee9b808cf9e23d8d1b8581b5b6efcfb80a9768d650dfa22f93777eca81ae9ef4de2301b22a7619649eb692a#npm:29.7.0"],\
