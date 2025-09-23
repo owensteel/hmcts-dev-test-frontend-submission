@@ -27,8 +27,10 @@ export default function (app: Application): void {
       taskId,
       errors: null,
       values: {
+        id: taskToEdit.id,
         title: taskToEdit.title,
         description: taskToEdit.description,
+        status: taskToEdit.status,
       },
       highlightedProperty,
     });

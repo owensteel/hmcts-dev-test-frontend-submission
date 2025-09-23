@@ -2,11 +2,45 @@
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/textarea/macro.njk" import govukTextarea %}
 {% from "govuk/components/date-input/macro.njk" import govukDateInput %}
+{% from "govuk/components/select/macro.njk" import govukSelect %}
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
 {% from "../macros/csrf.njk" import csrfProtection %}
 {% extends "template.njk" %}
 {% block content %}
   <h1 class="govuk-heading-xl">Edit a task</h1>
+  {% if highlightedProperty=="delete-description" %}
+    <h2 class="govuk-heading-l">Delete task's description</h1>
+  {% else %}
+    <h2 class="govuk-heading-l">Edit task {{ highlightedProperty }}</h1>
+  {% endif %}
+  <p class="govuk-body">You are editing the below task.</p>
+  {{ govukSummaryList({
+      rows: [
+        {
+          key: {
+            text: "ID"
+          },
+          value: {
+            text: values.id
+          },
+          actions: {
+            items: []
+          }
+        },
+        {
+          key: {
+            text: "Title"
+          },
+          value: {
+            text: values.title
+          },
+          actions: {
+            items: []
+          }
+        }
+      ]
+      }) }}
   {% if errors %}
     {{ govukErrorSummary({
     titleText: "There is a problem",
@@ -33,6 +67,10 @@
     errorMessage: errors | findError('description')
   }) }}
     {% endif %}
+    {% if highlightedProperty=="delete-description" %}
+      <input type="hidden" name="description" value=""/>
+      <p class="govuk-body">Clear this task's description?</p>
+    {% endif %}
     {% if highlightedProperty=="due-date" %}
       {{ govukDateInput({
     id: "due-date-time",
@@ -50,7 +88,37 @@
     errorMessage: errors | findError('due-date-time')
   }) }}
     {% endif %}
-    {{ govukButton({ text: "Update task" }) }}
+    {% if highlightedProperty=="status" %}
+      {{ govukSelect({
+        id: "status",
+        name: "status",
+        label: {
+          text: "Change this task's status"
+        },
+        items: [
+          {
+            value: "TODO",
+            text: "To do",
+            selected: values.status == "TODO"
+          },
+          {
+            value: "IN_PROGRESS",
+            text: "In progress",
+            selected: values.status == "IN_PROGRESS"
+          },
+          {
+            value: "DONE",
+            text: "Done",
+            selected: values.status == "DONE"
+          }
+        ]
+      }) }}
+    {% endif %}
+    {% if highlightedProperty=="delete-description" %}
+      {{ govukButton({ text: "Confirm" }) }}
+    {% else %}
+      {{ govukButton({ text: "Update task" }) }}
+    {% endif %}
   </form>
   {{ govukButton({
         text: "Cancel",
