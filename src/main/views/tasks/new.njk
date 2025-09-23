@@ -23,33 +23,35 @@
       }
     ]
   }) }}
-  <h1 class="govuk-heading-xl">Create a task</h1>
-  <p class="govuk-body">You are
-    <strong>creating a task</strong>
-    for the Case.</p>
-  {% if errors %}
-    {{ govukErrorSummary({
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-xl">Create a task</h1>
+      <p class="govuk-body">You are
+        <strong>creating a task</strong>
+        for the Case.</p>
+      {% if errors %}
+        {{ govukErrorSummary({
     titleText: "There is a problem",
     errorList: errors
   }) }}
-  {% endif %}
-  <form method="post" action="/tasks/new">
-    {{ csrfProtection(csrfToken) }}
-    {{ govukInput({
+      {% endif %}
+      <form method="post" action="/tasks/new">
+        {{ csrfProtection(csrfToken) }}
+        {{ govukInput({
     label: { text: "Task title" },
     id: "title",
     name: "title",
     value: values.title,
     errorMessage: errors | findError('title')
   }) }}
-    {{ govukTextarea({
+        {{ govukTextarea({
     label: { text: "Task description" },
     id: "description",
     name: "description",
     value: values.description,
     errorMessage: errors | findError('description')
   }) }}
-    {{ govukDateInput({
+        {{ govukDateInput({
   id: "due-date-time",
   namePrefix: "due-date-time",
   fieldset: {
@@ -64,11 +66,13 @@
   },
   errorMessage: errors | findError('due-date-time')
 }) }}
-    {{ govukButton({ text: "Create task" }) }}
-  </form>
-  {{ govukButton({
+        {{ govukButton({ text: "Create task" }) }}
+      </form>
+      {{ govukButton({
         text: "Cancel",
         classes: "govuk-button--secondary",
         href: "/tasks"
     }) }}
+    </div>
+  </div>
 {% endblock %}

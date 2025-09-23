@@ -30,16 +30,18 @@
     ]
   }) }}
   <h1 class="govuk-heading-xl">Edit a task</h1>
-  {% if highlightedProperty=="delete-description" %}
-    <p class="govuk-body">You are
-      <strong>deleting the description</strong>
-      of the below task.</p>
-  {% else %}
-    <p class="govuk-body">You are editing the
-      <strong>{{ highlightedProperty }}</strong>
-      of the below task.</p>
-  {% endif %}
-  {{ govukSummaryList({
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      {% if highlightedProperty=="delete-description" %}
+        <p class="govuk-body">You are
+          <strong>deleting the description</strong>
+          of the below task.</p>
+      {% else %}
+        <p class="govuk-body">You are editing the
+          <strong>{{ highlightedProperty }}</strong>
+          of the below task.</p>
+      {% endif %}
+      {{ govukSummaryList({
       rows: [
         {
           key: {
@@ -65,38 +67,38 @@
         }
       ]
       }) }}
-  {% if errors %}
-    {{ govukErrorSummary({
+      {% if errors %}
+        {{ govukErrorSummary({
     titleText: "There is a problem",
     errorList: errors
   }) }}
-  {% endif %}
-  <form method="post" action="/tasks/{{ taskId }}/edit/{{ highlightedProperty }}">
-    {{ csrfProtection(csrfToken) }}
-    {% if highlightedProperty=="title" %}
-      {{ govukInput({
+      {% endif %}
+      <form method="post" action="/tasks/{{ taskId }}/edit/{{ highlightedProperty }}">
+        {{ csrfProtection(csrfToken) }}
+        {% if highlightedProperty=="title" %}
+          {{ govukInput({
     label: { text: "Task title" },
     id: "title",
     name: "title",
     value: values.title,
     errorMessage: errors | findError('title')
   }) }}
-    {% endif %}
-    {% if highlightedProperty=="description" %}
-      {{ govukTextarea({
+        {% endif %}
+        {% if highlightedProperty=="description" %}
+          {{ govukTextarea({
     label: { text: "Task description" },
     id: "description",
     name: "description",
     value: values.description,
     errorMessage: errors | findError('description')
   }) }}
-    {% endif %}
-    {% if highlightedProperty=="delete-description" %}
-      <input type="hidden" name="description" value=""/>
-      <p class="govuk-body">Clear this task's description?</p>
-    {% endif %}
-    {% if highlightedProperty=="due-date" %}
-      {{ govukDateInput({
+        {% endif %}
+        {% if highlightedProperty=="delete-description" %}
+          <input type="hidden" name="description" value=""/>
+          <p class="govuk-body">Clear this task's description?</p>
+        {% endif %}
+        {% if highlightedProperty=="due-date" %}
+          {{ govukDateInput({
     id: "due-date-time",
     namePrefix: "due-date-time",
     fieldset: {
@@ -111,9 +113,9 @@
     },
     errorMessage: errors | findError('due-date-time')
   }) }}
-    {% endif %}
-    {% if highlightedProperty=="status" %}
-      {{ govukSelect({
+        {% endif %}
+        {% if highlightedProperty=="status" %}
+          {{ govukSelect({
         id: "status",
         name: "status",
         label: {
@@ -137,16 +139,18 @@
           }
         ]
       }) }}
-    {% endif %}
-    {% if highlightedProperty=="delete-description" %}
-      {{ govukButton({ text: "Confirm" }) }}
-    {% else %}
-      {{ govukButton({ text: "Save changes and continue" }) }}
-    {% endif %}
-  </form>
-  {{ govukButton({
+        {% endif %}
+        {% if highlightedProperty=="delete-description" %}
+          {{ govukButton({ text: "Confirm" }) }}
+        {% else %}
+          {{ govukButton({ text: "Save changes and continue" }) }}
+        {% endif %}
+      </form>
+      {{ govukButton({
         text: "Cancel",
         classes: "govuk-button--secondary",
         href: "/tasks/"+taskId+"/view"
     }) }}
+    </div>
+  </div>
 {% endblock %}
