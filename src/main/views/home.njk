@@ -9,6 +9,7 @@
   <h1 class="govuk-heading-xl">Manage a Case</h1>
   {% if case.id %}
     <!-- Display case metadata -->
+    <h2 class="govuk-heading-l">Case details</h2>
     {{ govukSummaryList({
       rows: [
         {
@@ -127,53 +128,53 @@
       <div class="govuk-grid-row">
         <div class="govuk-grid-column-one-third">
           {{ govukSelect({
-              id: "sortBy",
-              name: "sortBy",
-              label: {
-                text: "Sort tasks by"
-              },
-              items: [
-                {
-                  value: "dueDateTime",
-                  text: "Due date",
-                  selected: sortBy == "dueDateTime"
+                id: "sortBy",
+                name: "sortBy",
+                label: {
+                  text: "Sort tasks by"
                 },
-                {
-                  value: "status",
-                  text: "Status",
-                  selected: sortBy == "status"
-                },
-                {
-                  value: "title",
-                  text: "Title A-Z",
-                  selected: values.status == "title"
-                }
-              ]
-            }) }}
+                items: [
+                  {
+                    value: "dueDateTime",
+                    text: "Due date",
+                    selected: sortBy == "dueDateTime"
+                  },
+                  {
+                    value: "status",
+                    text: "Status",
+                    selected: sortBy == "status"
+                  },
+                  {
+                    value: "title",
+                    text: "Title A-Z",
+                    selected: values.status == "title"
+                  }
+                ]
+              }) }}
         </div>
         <div class="govuk-grid-column-one-third">
           {{ govukSelect({
-              id: "direction",
-              name: "direction",
-              label: {
-                text: "Sort tasks in what order"
-              },
-              items: [
-                {
-                  value: "asc",
-                  text: "Ascending order",
-                  selected: direction == "asc"
+                id: "direction",
+                name: "direction",
+                label: {
+                  text: "Sort tasks in what order"
                 },
-                {
-                  value: "desc",
-                  text: "Descending order",
-                  selected: direction == "desc"
-                }
-              ]
-            }) }}
+                items: [
+                  {
+                    value: "asc",
+                    text: "Ascending order",
+                    selected: direction == "asc"
+                  },
+                  {
+                    value: "desc",
+                    text: "Descending order",
+                    selected: direction == "desc"
+                  }
+                ]
+              }) }}
         </div>
         <div class="govuk-grid-column-one-third">
-          {{ govukButton({ text: "Apply" }) }}
+          {{ govukButton({ text: "Apply sort" }) }}
         </div>
       </div>
       <input type="hidden" name="page" value="0"/>
@@ -198,13 +199,13 @@
       <tbody class="govuk-table__body">
         {% for task in taskPage.content %}
           <tr class="govuk-table__row">
-            <td class="govuk-table__cell">
+            <td class="govuk-table__cell" style="width: 25%">
               {{ task.title }}
             </td>
-            <td class="govuk-table__cell">
+            <td class="govuk-table__cell" style="width: 25%">
               {{ task.dueDateTime }}
             </td>
-            <td class="govuk-table__cell">
+            <td class="govuk-table__cell" style="width: 12.5%">
               {% if task.status == "DONE" %}
                 {{ govukTag({ text: "Done", classes: "govuk-tag--green" }) }}
               {% elif task.status == "IN_PROGRESS" %}
@@ -213,9 +214,9 @@
                 {{ govukTag({ text: "To do", classes: "govuk-tag--grey" }) }}
               {% endif %}
             </td>
-            <td class="govuk-table__cell">
+            <td class="govuk-table__cell" style="width: 12.5%">
               <p class="govuk-body">
-                <a href="/tasks/{{ task.id }}" class="govuk-link">View and edit</a>
+                <a href="/tasks/{{ task.id }}" class="govuk-link">View and Edit</a>
               </p>
             </td>
           </tr>
