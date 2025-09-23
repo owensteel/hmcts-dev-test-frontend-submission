@@ -1,0 +1,81 @@
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/pagination/macro.njk" import govukPagination %}
+{% from "govuk/components/select/macro.njk" import govukSelect %}
+{% from "govuk/components/table/macro.njk" import govukTable %}
+{% extends "template.njk" %}
+<!-- This is the page for a single Task -->
+{% block content %}
+    <h1 class="govuk-heading-xl">View a task</h1>
+    {% if task.id %}
+        {{ govukSummaryList({
+      classes: "govuk-!-margin-bottom-6",
+      rows: [
+        {
+          key: { text: "Case ID" },
+          value: { text: task.caseId },
+          actions: {
+            items: []
+          }
+        },
+        {
+          key: { text: "Title" },
+          value: { text: task.title },
+          actions: {
+            items: [
+              {
+                href: "/tasks/"+task.id+"/edit/title",
+                text: "Change",
+                visuallyHiddenText: "Change task title?"
+              }
+            ]
+          }
+        },
+        {
+          key: { text: "Description" },
+          value: { text: task.description },
+          actions: {
+            items: [
+              {
+                 href: "/tasks/"+task.id+"/edit/delete-description",
+                 text: "Delete",
+                 visuallyHiddenText: "Delete description"
+              },
+              {
+                href: "/tasks/"+task.id+"/edit/description",
+                text: "Change",
+                visuallyHiddenText: "Change task description?"
+              }
+            ]
+          }
+        },
+        {
+          key: { text: "Status" },
+          value: { text: task.status },
+          actions: {
+            items: [
+              {
+                href: "/tasks/"+task.id+"/edit/status",
+                text: "Change",
+                visuallyHiddenText: "Change task status?"
+              }
+            ]
+          }
+        },
+        {
+          key: { text: "Due Date" },
+          value: { text: task.dueDateTime },
+          actions: {
+            items: [
+              {
+                href: "/tasks/"+task.id+"/edit/due-date",
+                text: "Change",
+                visuallyHiddenText: "Change due date?"
+              }
+            ]
+          }
+        }
+      ]
+    }) }}
+    {% endif %}
+{% endblock %}
