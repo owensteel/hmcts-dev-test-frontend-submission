@@ -5,9 +5,26 @@
 {% from "govuk/components/select/macro.njk" import govukSelect %}
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+{% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
 {% from "../macros/csrf.njk" import csrfProtection %}
 {% extends "template.njk" %}
 {% block content %}
+  {{ govukBreadcrumbs({
+    items: [
+      {
+        text: "Case",
+        href: "/"
+      },
+      {
+        text: "View task",
+        href: "/tasks/" + taskId
+      },
+      {
+        text: "Edit task",
+        href: ""
+      }
+    ]
+  }) }}
   <h1 class="govuk-heading-xl">Edit a task</h1>
   {% if highlightedProperty=="delete-description" %}
     <h2 class="govuk-heading-l">Delete task's description</h1>
