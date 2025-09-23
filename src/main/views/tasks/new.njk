@@ -3,17 +3,37 @@
 {% from "govuk/components/textarea/macro.njk" import govukTextarea %}
 {% from "govuk/components/date-input/macro.njk" import govukDateInput %}
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
 {% from "../macros/csrf.njk" import csrfProtection %}
 {% extends "template.njk" %}
 {% block content %}
-  <h1 class="govuk-heading-xl">Create a task for a case</h1>
+  {{ govukBreadcrumbs({
+    items: [
+      {
+        text: "Manage a Case",
+        href: "/"
+      },
+      {
+        text: "Case tasks",
+        href: "/tasks"
+      },
+      {
+        text: "Create a task",
+        href: ""
+      }
+    ]
+  }) }}
+  <h1 class="govuk-heading-xl">Create a task</h1>
+  <p class="govuk-body">You are
+    <strong>creating a task</strong>
+    for the Case.</p>
   {% if errors %}
     {{ govukErrorSummary({
     titleText: "There is a problem",
     errorList: errors
   }) }}
   {% endif %}
-  <form method="post" action="/tasks/new/{{ caseId }}">
+  <form method="post" action="/tasks/new">
     {{ csrfProtection(csrfToken) }}
     {{ govukInput({
     label: { text: "Task title" },
