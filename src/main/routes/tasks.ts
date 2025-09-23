@@ -5,6 +5,13 @@ import { TaskService } from '../../services/TaskService';
 
 import { Application } from 'express';
 
+const TASK_STATUS_MAP_TO_USER_FRIENDLY_VALUES: Record<string, string> = {
+  [TaskStatus.DONE]: 'Done',
+  [TaskStatus.IN_PROGRESS]: 'In progress',
+  [TaskStatus.PENDING]: 'To do',
+  [TaskStatus.BLOCKED]: 'Blocked',
+};
+
 export default function (app: Application): void {
   const taskService = new TaskService();
 
@@ -19,7 +26,10 @@ export default function (app: Application): void {
 
     try {
       const task = await taskService.get(parseInt(taskId));
-      res.render('../views/tasks/view.njk', { task });
+      res.render('../views/tasks/view.njk', {
+        task,
+        taskStatusUserFriendly: TASK_STATUS_MAP_TO_USER_FRIENDLY_VALUES[task.status],
+      });
     } catch (e) {
       res.redirect('/');
     }
@@ -129,7 +139,7 @@ export default function (app: Application): void {
       req.body.title,
       `${req.body['due-date-time-year']}-${req.body['due-date-time-month'].padStart(2, '0')}-${req.body['due-date-time-day'].padStart(2, '0')}`,
       // We assume all new tasks are just "todo"
-      TaskStatus.TODO,
+      TaskStatus.PENDING,
       caseId,
       req.body.description
       // Leave ID property blank so we create this task

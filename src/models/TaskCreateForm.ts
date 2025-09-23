@@ -11,7 +11,7 @@ export class TaskCreateForm implements TaskCreate {
   constructor(
     title: string,
     dueDate: string,
-    status: TaskStatus = TaskStatus.TODO,
+    status: TaskStatus = TaskStatus.PENDING,
     caseId: number,
     description?: string
   ) {
