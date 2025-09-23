@@ -130,7 +130,7 @@ export default function (app: Application): void {
       // Submit to backend
       try {
         await taskService.update(Number(taskId), taskUpdateForm);
-        res.redirect('/tasks/' + taskId);
+        res.redirect('/tasks/' + taskId + '/view');
       } catch (error) {
         console.error(error);
         res.status(500).render('error');
@@ -174,7 +174,8 @@ export default function (app: Application): void {
       // Submit to backend
       try {
         await taskService.create(presetCaseId, taskCreateForm);
-        res.redirect('/');
+        // Redirect user to updated Tasks list
+        res.redirect('/tasks');
       } catch (error) {
         // TODO: remove in prod
         console.error(error.response);
