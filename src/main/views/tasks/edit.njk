@@ -27,11 +27,14 @@
   }) }}
   <h1 class="govuk-heading-xl">Edit a task</h1>
   {% if highlightedProperty=="delete-description" %}
-    <h2 class="govuk-heading-l">Delete task's description</h1>
+    <p class="govuk-body">You are
+      <strong>deleting the description</strong>
+      of the below task.</p>
   {% else %}
-    <h2 class="govuk-heading-l">Edit task {{ highlightedProperty }}</h1>
+    <p class="govuk-body">You are editing the
+      <strong>{{ highlightedProperty }}</strong>
+      of the below task.</p>
   {% endif %}
-  <p class="govuk-body">You are editing the below task.</p>
   {{ govukSummaryList({
       rows: [
         {
@@ -134,7 +137,7 @@
     {% if highlightedProperty=="delete-description" %}
       {{ govukButton({ text: "Confirm" }) }}
     {% else %}
-      {{ govukButton({ text: "Update task" }) }}
+      {{ govukButton({ text: "Save changes and continue" }) }}
     {% endif %}
   </form>
   {{ govukButton({
