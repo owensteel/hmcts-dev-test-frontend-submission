@@ -29,9 +29,9 @@
             <h2 class="govuk-heading-l">Case tasks</h2>
             <p class="govuk-body">Here you may manage the tasks for this case.</p>
             {{ govukButton({
-            text: "Create a task",
-            href: "/tasks/new/"+case.id,
-            isStartButton: true
+                text: "Create a task",
+                href: "/tasks/new",
+                isStartButton: true
             }) }}
             {% if taskPage.totalElements == 1 %}
                 <p class="govuk-body">There is 1 task for this case.</p>
@@ -130,7 +130,7 @@
                             </td>
                             <td class="govuk-table__cell" style="width: 12.5%">
                                 <p class="govuk-body">
-                                    <a href="/tasks/{{ task.id }}" class="govuk-link">View and Edit</a>
+                                    <a href="/tasks/{{ task.id }}/view" class="govuk-link">View and Edit</a>
                                 </p>
                             </td>
                         </tr>

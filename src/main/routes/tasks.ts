@@ -52,13 +52,8 @@ export default function (app: Application): void {
   });
 
   // Task display
-  app.get('/tasks/:taskId', async (req, res) => {
+  app.get('/tasks/:taskId/view', async (req, res) => {
     const { taskId } = req.params;
-
-    // Check task ID is valid
-    if (isNaN(parseInt(taskId))) {
-      res.redirect('/');
-    }
 
     try {
       const task = await taskService.get(parseInt(taskId));
@@ -67,18 +62,13 @@ export default function (app: Application): void {
         taskStatusUserFriendly: TASK_STATUS_MAP_TO_USER_FRIENDLY_VALUES[task.status],
       });
     } catch (e) {
-      res.redirect('/');
+      res.status(500).render('error');
     }
   });
 
   // Task editing form
   app.get('/tasks/:taskId/edit/:highlightedProperty', async (req, res) => {
     const { taskId, highlightedProperty } = req.params;
-
-    // Check task ID is valid
-    if (isNaN(parseInt(taskId))) {
-      res.redirect('/');
-    }
 
     const taskToEdit = await taskService.get(parseInt(taskId));
     res.render('../views/tasks/edit.njk', {
@@ -149,34 +139,25 @@ export default function (app: Application): void {
   });
 
   // Task creation form
-  app.get('/tasks/new/:caseId', (req, res) => {
-    const { caseId } = req.params;
+  app.get('/tasks/new', (req, res) => {
     res.render('../views/tasks/new.njk', {
       errors: null,
       values: {
         title: '',
         description: '',
       },
-      caseId,
+      presetCaseId,
     });
   });
 
   // Handle submit for Task creation form
-  app.post('/tasks/new/:caseIdParam', async (req, res) => {
-    const { caseIdParam } = req.params;
-
-    // Check specified Case ID is valid
-    if (isNaN(parseInt(caseIdParam))) {
-      res.status(404).render('error');
-    }
-    const caseId = parseInt(caseIdParam);
-
+  app.post('/tasks/new', async (req, res) => {
     const taskCreateForm: TaskCreateForm = new TaskCreateForm(
       req.body.title,
       `${req.body['due-date-time-year']}-${req.body['due-date-time-month'].padStart(2, '0')}-${req.body['due-date-time-day'].padStart(2, '0')}`,
       // We assume all new tasks are just "todo"
       TaskStatus.PENDING,
-      caseId,
+      presetCaseId,
       req.body.description
       // Leave ID property blank so we create this task
       // and leave the ID generation to the backend
@@ -192,7 +173,7 @@ export default function (app: Application): void {
     } else {
       // Submit to backend
       try {
-        await taskService.create(caseId, taskCreateForm);
+        await taskService.create(presetCaseId, taskCreateForm);
         res.redirect('/');
       } catch (error) {
         // TODO: remove in prod
