@@ -8,10 +8,6 @@ import { Application } from 'express';
 export default function (app: Application): void {
   const taskService = new TaskService();
 
-  // ID of the example case we're working with
-  // Fixed for this example scenario
-  const caseId = 1;
-
   // Task editing form
   app.get('/tasks/edit/:taskId/:highlightedProperty', async (req, res) => {
     const { taskId, highlightedProperty } = req.params;
@@ -91,18 +87,28 @@ export default function (app: Application): void {
   });
 
   // Task creation form
-  app.get('/tasks/new', (req, res) => {
+  app.get('/tasks/new/:caseId', (req, res) => {
+    const { caseId } = req.params;
     res.render('../views/tasks/new.njk', {
       errors: null,
       values: {
         title: '',
         description: '',
       },
+      caseId,
     });
   });
 
   // Handle submit for Task creation form
-  app.post('/tasks/new', async (req, res) => {
+  app.post('/tasks/new/:caseIdParam', async (req, res) => {
+    const { caseIdParam } = req.params;
+
+    // Check specified Case ID is valid
+    if (isNaN(parseInt(caseIdParam))) {
+      res.status(404).render('error');
+    }
+    const caseId = parseInt(caseIdParam);
+
     const taskCreateForm: TaskCreateForm = new TaskCreateForm(
       req.body.title,
       `${req.body['due-date-time-year']}-${req.body['due-date-time-month'].padStart(2, '0')}-${req.body['due-date-time-day'].padStart(2, '0')}`,

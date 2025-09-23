@@ -114,7 +114,7 @@
     <p class="govuk-body">Here you may manage the tasks for this case.</p>
     {{ govukButton({
       text: "Create a task",
-      href: "/tasks/new",
+      href: "/tasks/new/"+case.id,
       isStartButton: true
     }) }}
     {% if taskPage.totalElements == 1 %}

@@ -13,7 +13,7 @@
     errorList: errors
   }) }}
   {% endif %}
-  <form method="post" action="/tasks/new">
+  <form method="post" action="/tasks/new/{{ caseId }}">
     {{ csrfProtection(csrfToken) }}
     {{ govukInput({
     label: { text: "Task title" },
