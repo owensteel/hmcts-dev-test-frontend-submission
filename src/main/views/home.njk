@@ -205,10 +205,13 @@
               {{ task.dueDateTime }}
             </td>
             <td class="govuk-table__cell">
-              {{ govukTag({
-                  text: task.status,
-                  classes: "govuk-tag--grey"
-              }) }}
+              {% if task.status == "DONE" %}
+                {{ govukTag({ text: "Done", classes: "govuk-tag--green" }) }}
+              {% elif task.status == "IN_PROGRESS" %}
+                {{ govukTag({ text: "In progress", classes: "govuk-tag--blue" }) }}
+              {% else %}
+                {{ govukTag({ text: "To do", classes: "govuk-tag--grey" }) }}
+              {% endif %}
             </td>
             <td class="govuk-table__cell">
               <p class="govuk-body">
