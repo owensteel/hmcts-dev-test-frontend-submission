@@ -38,10 +38,11 @@
             {% else %}
                 <p class="govuk-body">There are {{ taskPage.totalElements }} tasks for this case.</p>
             {% endif %}
-            <form method="get" action="">
-                <div class="govuk-grid-row">
-                    <div class="govuk-grid-column-one-third">
-                        {{ govukSelect({
+            {% if taskPage.totalElements > 0 %}
+                <form method="get" action="">
+                    <div class="govuk-grid-row">
+                        <div class="govuk-grid-column-one-third">
+                            {{ govukSelect({
                         id: "sortBy",
                         name: "sortBy",
                         label: {
@@ -65,9 +66,9 @@
                         }
                         ]
                     }) }}
-                    </div>
-                    <div class="govuk-grid-column-one-third">
-                        {{ govukSelect({
+                        </div>
+                        <div class="govuk-grid-column-one-third">
+                            {{ govukSelect({
                         id: "direction",
                         name: "direction",
                         label: {
@@ -86,58 +87,58 @@
                         }
                         ]
                     }) }}
+                        </div>
+                        <div class="govuk-grid-column-one-third">
+                            {{ govukButton({ text: "Apply sort" }) }}
+                        </div>
                     </div>
-                    <div class="govuk-grid-column-one-third">
-                        {{ govukButton({ text: "Apply sort" }) }}
-                    </div>
-                </div>
-                <input type="hidden" name="page" value="0"/>
-            </form>
-            <table class="govuk-table">
-                <thead class="govuk-table__head">
-                    <tr class="govuk-table__row">
-                        <th class="govuk-table__header" scope="col">
-                            Title
-                        </th>
-                        <th class="govuk-table__header" scope="col">
-                            Due date
-                        </th>
-                        <th class="govuk-table__header" scope="col">
-                            Status
-                        </th>
-                        <th class="govuk-table__header" scope="col">
-                            Actions
-                        </th>
-                    </tr>
-                </thead>
-                <tbody class="govuk-table__body">
-                    {% for task in taskPage.content %}
+                    <input type="hidden" name="page" value="0"/>
+                </form>
+                <table class="govuk-table">
+                    <thead class="govuk-table__head">
                         <tr class="govuk-table__row">
-                            <td class="govuk-table__cell" style="width: 25%">
-                                {{ task.title }}
-                            </td>
-                            <td class="govuk-table__cell" style="width: 25%">
-                                {{ task.dueDateTime }}
-                            </td>
-                            <td class="govuk-table__cell" style="width: 12.5%">
-                                {% if task.status == "DONE" %}
-                                    {{ govukTag({ text: "Done", classes: "govuk-tag--green" }) }}
-                                {% elif task.status == "IN_PROGRESS" %}
-                                    {{ govukTag({ text: "In progress", classes: "govuk-tag--blue" }) }}
-                                {% else %}
-                                    {{ govukTag({ text: "To do", classes: "govuk-tag--grey" }) }}
-                                {% endif %}
-                            </td>
-                            <td class="govuk-table__cell" style="width: 12.5%">
-                                <p class="govuk-body">
-                                    <a href="/tasks/{{ task.id }}/view" class="govuk-link">View and Edit</a>
-                                </p>
-                            </td>
+                            <th class="govuk-table__header" scope="col">
+                                Title
+                            </th>
+                            <th class="govuk-table__header" scope="col">
+                                Due date
+                            </th>
+                            <th class="govuk-table__header" scope="col">
+                                Status
+                            </th>
+                            <th class="govuk-table__header" scope="col">
+                                Actions
+                            </th>
                         </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-            {{ govukPagination({
+                    </thead>
+                    <tbody class="govuk-table__body">
+                        {% for task in taskPage.content %}
+                            <tr class="govuk-table__row">
+                                <td class="govuk-table__cell" style="width: 25%">
+                                    {{ task.title }}
+                                </td>
+                                <td class="govuk-table__cell" style="width: 25%">
+                                    {{ task.dueDateTime }}
+                                </td>
+                                <td class="govuk-table__cell" style="width: 12.5%">
+                                    {% if task.status == "DONE" %}
+                                        {{ govukTag({ text: "Done", classes: "govuk-tag--green" }) }}
+                                    {% elif task.status == "IN_PROGRESS" %}
+                                        {{ govukTag({ text: "In progress", classes: "govuk-tag--blue" }) }}
+                                    {% else %}
+                                        {{ govukTag({ text: "To do", classes: "govuk-tag--grey" }) }}
+                                    {% endif %}
+                                </td>
+                                <td class="govuk-table__cell" style="width: 12.5%">
+                                    <p class="govuk-body">
+                                        <a href="/tasks/{{ task.id }}/view" class="govuk-link">View and Edit</a>
+                                    </p>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {{ govukPagination({
             previous: taskPage.number > 0 and {
                 "href": "/tasks/?page=" + (taskPage.number - 1) + "&sortBy=" + sortBy + "&direction=" + direction
             },
@@ -146,6 +147,7 @@
             },
             items: paginationItems
             }) }}
+            {% endif %}
         </div>
     </div>
 {% endblock %}
