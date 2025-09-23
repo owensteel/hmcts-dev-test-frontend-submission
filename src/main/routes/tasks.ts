@@ -27,10 +27,14 @@ export default function (app: Application): void {
       taskId,
       errors: null,
       values: {
-        id: taskToEdit.id,
         title: taskToEdit.title,
         description: taskToEdit.description,
         status: taskToEdit.status,
+      },
+      // So the title for the preview of the task doesn't
+      // get mixed up with the title input value
+      staticValues: {
+        title: taskToEdit.title,
       },
       highlightedProperty,
     });
@@ -59,10 +63,14 @@ export default function (app: Application): void {
     // Stop and display validation errors, if any
     const formValidationErrors = taskUpdateForm.validateAndGetErrors();
     if (formValidationErrors.length > 0) {
+      const taskToEdit = await taskService.get(parseInt(taskId));
       return res.render('../views/tasks/edit.njk', {
         taskId,
         errors: formValidationErrors,
         values: req.body,
+        staticValues: {
+          title: taskToEdit.title,
+        },
         highlightedProperty,
       });
     } else {
