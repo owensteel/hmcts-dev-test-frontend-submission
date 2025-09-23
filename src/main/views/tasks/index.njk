@@ -95,10 +95,10 @@
                 {% endif %}
                 {{ govukPagination({
                     previous: taskPage.number > 0 and {
-                        "href": "/tasks/?page=" + (taskPage.number - 1) + "&sortBy=" + sortBy + "&direction=" + direction
+                        "href": "/tasks/?page=" + (taskPage.number - 1) + "&sortBy=" + sortBy + "&direction=" + direction + "&statusFilter=" + statusFilter
                     },
                     next: taskPage.number < totalPages - 1 and {
-                        "href": "/tasks/?page=" + (taskPage.number + 1) + "&sortBy=" + sortBy + "&direction=" + direction
+                        "href": "/tasks/?page=" + (taskPage.number + 1) + "&sortBy=" + sortBy + "&direction=" + direction + "&statusFilter=" + statusFilter
                     },
                     items: paginationItems
                 }) }}
