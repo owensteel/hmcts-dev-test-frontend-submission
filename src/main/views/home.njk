@@ -1,5 +1,6 @@
 {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/pagination/macro.njk" import govukPagination %}
 {% extends "template.njk" %}
 <!-- This is the page for a single Case -->
 {% block content %}
@@ -115,12 +116,12 @@
       href: "/tasks/new",
       isStartButton: true
     }) }}
-    {% if case.tasks.length == 1 %}
+    {% if taskPage.totalElements == 1 %}
       <p class="govuk-body">There is 1 task for this case.</p>
     {% else %}
-      <p class="govuk-body">There are {{ case.tasks.length }} tasks for this case.</p>
+      <p class="govuk-body">There are {{ taskPage.totalElements }} tasks for this case.</p>
     {% endif %}
-    {% for task in case.tasks %}
+    {% for task in taskPage.content %}
       {{ govukSummaryList({
       classes: "govuk-!-margin-bottom-6",
       rows: [
@@ -184,5 +185,14 @@
       ]
     }) }}
     {% endfor %}
+    {{ govukPagination({
+      previous: taskPage.number > 0 and {
+        "href": "./?page=" + (taskPage.number - 1) + "&sortBy=" + sortBy + "&direction=" + direction
+      },
+      next: taskPage.number < totalPages - 1 and {
+        "href": "./?page=" + (taskPage.number + 1) + "&sortBy=" + sortBy + "&direction=" + direction
+      },
+      items: paginationItems
+    }) }}
   {% endif %}
 {% endblock %}

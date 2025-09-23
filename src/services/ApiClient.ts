@@ -1,5 +1,6 @@
 import { Case } from '../models/Case';
 import { Task, TaskUpdate } from '../models/Task';
+import { TaskPage } from '../models/TaskPage';
 
 import axios, { AxiosInstance } from 'axios';
 
@@ -23,9 +24,17 @@ export class ApiClient {
     return data;
   }
 
-  async getTasksForCase(caseId: number): Promise<Task[]> {
-    const { data } = await this.client.get<Task[]>(`/cases/${caseId}/tasks`);
-    return data;
+  async getTasksForCase(
+    caseId: number,
+    page = 0,
+    size = 5,
+    sortBy = 'dueDateTime',
+    direction = 'asc'
+  ): Promise<TaskPage<Task>> {
+    const response = await this.client.get(`/cases/${caseId}/tasks`, {
+      params: { page, size, sortBy, direction },
+    });
+    return response.data;
   }
 
   async createTask(
