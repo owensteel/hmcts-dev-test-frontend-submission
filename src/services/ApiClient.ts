@@ -29,10 +29,11 @@ export class ApiClient {
     page = 0,
     size = 5,
     sortBy = 'dueDateTime',
-    direction = 'asc'
+    direction = 'asc',
+    statusFilter = 'ANY'
   ): Promise<TaskPage<Task>> {
     const response = await this.client.get(`/cases/${caseId}/tasks`, {
-      params: { page, size, sortBy, direction },
+      params: { page, size, sortBy, direction, statusFilter },
     });
     return response.data;
   }

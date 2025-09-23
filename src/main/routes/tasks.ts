@@ -36,16 +36,24 @@ export default function (app: Application): void {
     const size = req.query.size ? Number(req.query.size) : 5;
     const sortBy = (req.query.sortBy as string) || 'dueDateTime';
     const direction = (req.query.direction as 'asc' | 'desc') || 'asc';
+    const statusFilter = req.query.statusFilter ? (req.query.statusFilter as string) : 'ANY';
 
     // Get pre-sorted tasks for this case
-    const taskPage: TaskPage<Task> = await apiClient.getTasksForCase(presetCaseId, page, size, sortBy, direction);
+    const taskPage: TaskPage<Task> = await apiClient.getTasksForCase(
+      presetCaseId,
+      page,
+      size,
+      sortBy,
+      direction,
+      statusFilter
+    );
 
     // Precompute the list of numbered page links
     const paginationItems = [];
     for (let i = 0; i < taskPage.totalPages; i++) {
       paginationItems.push({
         number: i + 1,
-        href: `/tasks/?page=${i}&sortBy=${sortBy}&direction=${direction}`,
+        href: `/tasks/?page=${i}&sortBy=${sortBy}&direction=${direction}&statusFilter=${statusFilter}`,
         current: i === taskPage.number,
       });
     }
@@ -56,6 +64,7 @@ export default function (app: Application): void {
       sortBy,
       direction,
       paginationItems,
+      statusFilter,
     });
   });
 
