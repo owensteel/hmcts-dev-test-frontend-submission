@@ -104,7 +104,7 @@ export default function (app: Application): void {
       // Submit to backend
       try {
         await taskService.update(Number(taskId), taskUpdateForm);
-        res.redirect('/');
+        res.redirect('/tasks/' + taskId);
       } catch (error) {
         console.error(error);
         res.status(500).render('error');
