@@ -1,6 +1,7 @@
 {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/pagination/macro.njk" import govukPagination %}
+{% from "govuk/components/select/macro.njk" import govukSelect %}
 {% extends "template.njk" %}
 <!-- This is the page for a single Case -->
 {% block content %}
@@ -121,6 +122,61 @@
     {% else %}
       <p class="govuk-body">There are {{ taskPage.totalElements }} tasks for this case.</p>
     {% endif %}
+    <form method="get" action="">
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-one-third">
+          {{ govukSelect({
+              id: "sortBy",
+              name: "sortBy",
+              label: {
+                text: "Sort tasks by"
+              },
+              items: [
+                {
+                  value: "dueDateTime",
+                  text: "Due date",
+                  selected: sortBy == "dueDateTime"
+                },
+                {
+                  value: "status",
+                  text: "Status",
+                  selected: sortBy == "status"
+                },
+                {
+                  value: "title",
+                  text: "Title A-Z",
+                  selected: values.status == "title"
+                }
+              ]
+            }) }}
+        </div>
+        <div class="govuk-grid-column-one-third">
+          {{ govukSelect({
+              id: "direction",
+              name: "direction",
+              label: {
+                text: "Sort tasks in what order"
+              },
+              items: [
+                {
+                  value: "asc",
+                  text: "Ascending order",
+                  selected: direction == "asc"
+                },
+                {
+                  value: "desc",
+                  text: "Descending order",
+                  selected: direction == "desc"
+                }
+              ]
+            }) }}
+        </div>
+        <div class="govuk-grid-column-one-third">
+          {{ govukButton({ text: "Apply" }) }}
+        </div>
+      </div>
+      <input type="hidden" name="page" value="0"/>
+    </form>
     {% for task in taskPage.content %}
       {{ govukSummaryList({
       classes: "govuk-!-margin-bottom-6",
