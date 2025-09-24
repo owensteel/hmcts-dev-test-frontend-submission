@@ -59,4 +59,8 @@ export class ApiClient {
     const response = await this.client.put<Task>(`/tasks/${taskId}`, updates);
     return response.data;
   }
+
+  async deleteTask(taskId: number): Promise<void> {
+    await this.client.delete<Task>(`/tasks/${taskId}`);
+  }
 }

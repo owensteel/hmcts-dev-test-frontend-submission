@@ -83,6 +83,37 @@ export default function (app: Application): void {
     }
   });
 
+  // Task deletion form
+  app.get('/tasks/:taskId/delete', async (req, res) => {
+    const { taskId } = req.params;
+
+    try {
+      const taskToEdit = await taskService.get(parseInt(taskId));
+      res.render('../views/tasks/delete.njk', {
+        taskId,
+        errors: null,
+        // Original values that will remain as
+        // what is actually in the database
+        originalValues: {
+          title: taskToEdit.title,
+        },
+      });
+    } catch (e) {
+      res.status(404).render('not-found');
+    }
+  });
+
+  // Handle deletion request
+  app.post('/tasks/:taskId/delete', async (req, res) => {
+    const { taskId } = req.params;
+    try {
+      await taskService.delete(parseInt(taskId));
+      res.redirect('/tasks');
+    } catch (e) {
+      res.status(500).render('error');
+    }
+  });
+
   // Task editing form
   app.get('/tasks/:taskId/edit/:highlightedProperty', async (req, res) => {
     const { taskId, highlightedProperty } = req.params;

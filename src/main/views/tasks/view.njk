@@ -91,5 +91,9 @@
         }
       ]
     }) }}
+    {{ govukButton({
+      text: "Delete this task",
+      href: "/tasks/"+task.id+"/delete"
+    }) }}
   {% endif %}
 {% endblock %}

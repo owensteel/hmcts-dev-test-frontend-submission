@@ -49,4 +49,15 @@ export class TaskService {
       throw new Error(String(e));
     }
   }
+
+  async delete(taskId: number): Promise<void> {
+    try {
+      await this.apiClient.deleteTask(taskId);
+    } catch (e) {
+      if (isAxiosError(e)) {
+        throw e;
+      }
+      throw new Error(String(e));
+    }
+  }
 }
