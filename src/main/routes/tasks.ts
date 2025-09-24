@@ -111,7 +111,10 @@ export default function (app: Application): void {
       const task = await taskService.get(parseInt(taskId));
       res.render('../views/tasks/view.njk', {
         task,
-        taskStatusUserFriendly: TASK_STATUS_MAP_TO_USER_FRIENDLY_VALUES[task.status],
+        taskStatusUserFriendly: {
+          text: TASK_STATUS_MAP_TO_USER_FRIENDLY_VALUES[task.status],
+          statusTagClass: TASK_STATUS_TO_GOVUKTAG_CLASS[task.status],
+        },
       });
     } catch (e) {
       res.status(404).render('not-found');

@@ -65,7 +65,9 @@
         },
         {
           key: { text: "Status" },
-          value: { text: taskStatusUserFriendly },
+          value: {
+            html: "<strong class='govuk-tag "+taskStatusUserFriendly.statusTagClass+"'>"+taskStatusUserFriendly.text+"</strong>"
+          },
           actions: {
             items: [
               {
