@@ -69,9 +69,30 @@
               text: "Confirm and delete task",
               classes: "govuk-button--warning"
           }) }}
-          <a class="govuk-link" href="/tasks">Cancel</a>
+          <!-- This link will be altered dynamically by JS to make sure user is returned to where they came from -->
+          <a class="govuk-link" id="delete-task-form-cancel-button" href="/tasks">Cancel</a>
         </div>
       </form>
     </div>
   </div>
+  {% block scripts %}
+    <script id="delete-task-form-cancel-button-action">
+      /* The user can access the Delete Task page from either
+    the Tasks index or the Task view page So for good UX
+    we must make sure the cancel link returns them to the
+    page they actually came from If they have no window
+    history (came from nowhere), then we send them to the
+    index as a fallback */
+      const deleteTaskFormCancelButton = document.getElementById('delete-task-form-cancel-button');
+      if (deleteTaskFormCancelButton) {
+        deleteTaskFormCancelButton.addEventListener('click', e => { // In case the user does not have JS support, the button element does have a working link as fallback
+          if (window.history.length > 1) { // Cancel fallback link
+            e.preventDefault();
+            // Send user to their client's previous page
+            window.history.back();
+          }
+        });
+      }
+    </script>
+  {% endblock %}
 {% endblock %}
