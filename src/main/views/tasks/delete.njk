@@ -64,16 +64,14 @@
       <p class="govuk-body">Are you sure you want to permanently delete this task?</p>
       <form method="post" action="">
         {{ csrfProtection(csrfToken) }}
-        {{ govukButton({
-            text: "Confirm and delete task",
-            classes: "govuk-button--warning"
-        }) }}
+        <div class="govuk-button-group">
+          {{ govukButton({
+              text: "Confirm and delete task",
+              classes: "govuk-button--warning"
+          }) }}
+          <a class="govuk-link" href="/tasks">Cancel</a>
+        </div>
       </form>
-      {{ govukButton({
-        text: "Cancel",
-        classes: "govuk-button--secondary",
-        href: "/tasks/"+taskId+"/view"
-    }) }}
     </div>
   </div>
 {% endblock %}

@@ -140,17 +140,15 @@
         ]
       }) }}
         {% endif %}
-        {% if highlightedProperty=="delete-description" %}
-          {{ govukButton({ text: "Confirm" }) }}
-        {% else %}
-          {{ govukButton({ text: "Save changes and continue" }) }}
-        {% endif %}
+        <div class="govuk-button-group">
+          {% if highlightedProperty=="delete-description" %}
+            {{ govukButton({ text: "Confirm" }) }}
+          {% else %}
+            {{ govukButton({ text: "Save changes and continue" }) }}
+          {% endif %}
+          <a class="govuk-link" href="/tasks/{{ taskId }}/view">Cancel</a>
+        </div>
       </form>
-      {{ govukButton({
-        text: "Cancel",
-        classes: "govuk-button--secondary",
-        href: "/tasks/"+taskId+"/view"
-    }) }}
     </div>
   </div>
 {% endblock %}

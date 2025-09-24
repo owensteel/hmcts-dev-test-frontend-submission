@@ -66,13 +66,11 @@
   },
   errorMessage: errors | findError('due-date-time')
 }) }}
-        {{ govukButton({ text: "Create task" }) }}
+        <div class="govuk-button-group">
+          {{ govukButton({ text: "Create task" }) }}
+          <a class="govuk-link" href="/tasks">Cancel</a>
+        </div>
       </form>
-      {{ govukButton({
-        text: "Cancel",
-        classes: "govuk-button--secondary",
-        href: "/tasks"
-    }) }}
     </div>
   </div>
 {% endblock %}
