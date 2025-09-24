@@ -3,6 +3,7 @@
 {% from "govuk/components/pagination/macro.njk" import govukPagination %}
 {% from "govuk/components/select/macro.njk" import govukSelect %}
 {%- from "govuk/components/tag/macro.njk" import govukTag -%}
+{% from "govuk/components/table/macro.njk" import govukTable %}
 {% extends "template.njk" %}
 <!-- This is the page for displaying a Case's Tasks -->
 {% block content %}
@@ -48,50 +49,18 @@
             {% endif %}
             {% if taskPage.totalElements > 0 or statusFilter !== "ANY" %}
                 {% if taskPage.totalElements > 0 %}
-                    <table class="govuk-table">
-                        <thead class="govuk-table__head">
-                            <tr class="govuk-table__row">
-                                <th class="govuk-table__header" scope="col">
-                                    Title
-                                </th>
-                                <th class="govuk-table__header" scope="col">
-                                    Due date
-                                </th>
-                                <th class="govuk-table__header" scope="col">
-                                    Status
-                                </th>
-                                <th class="govuk-table__header" scope="col">
-                                    Actions
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody class="govuk-table__body">
-                            {% for task in taskPage.content %}
-                                <tr class="govuk-table__row">
-                                    <td class="govuk-table__cell" style="width: 25%">
-                                        {{ task.title }}
-                                    </td>
-                                    <td class="govuk-table__cell" style="width: 25%">
-                                        {{ task.dueDateTime }}
-                                    </td>
-                                    <td class="govuk-table__cell" style="width: 12.5%">
-                                        {% if task.status == "DONE" %}
-                                            {{ govukTag({ text: "Done", classes: "govuk-tag--green" }) }}
-                                        {% elif task.status == "IN_PROGRESS" %}
-                                            {{ govukTag({ text: "In progress", classes: "govuk-tag--blue" }) }}
-                                        {% else %}
-                                            {{ govukTag({ text: "To do", classes: "govuk-tag--grey" }) }}
-                                        {% endif %}
-                                    </td>
-                                    <td class="govuk-table__cell" style="width: 12.5%">
-                                        <p class="govuk-body">
-                                            <a href="/tasks/{{ task.id }}/view" class="govuk-link">View and Edit</a>
-                                        </p>
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
+                    {{ govukTable({
+                        caption: "Tasks",
+                        captionClasses: "govuk-table__caption--m",
+                        firstCellIsHeader: false,
+                        head: [
+                            { text: "Title" },
+                            { text: "Due date" },
+                            { text: "Status" },
+                            { text: "Actions" }
+                        ],
+                        rows: tasksAsTableRows
+                    }) }}
                 {% endif %}
                 {{ govukPagination({
                     previous: taskPage.number > 0 and {

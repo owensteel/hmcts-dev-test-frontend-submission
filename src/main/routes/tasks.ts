@@ -23,6 +23,13 @@ const TASK_EDIT_VALID_HIGHLIGHTED_PROPERTIES: string[] = [
   'status',
 ];
 
+const TASK_STATUS_TO_GOVUKTAG_CLASS: Record<string, string> = {
+  [TaskStatus.DONE]: 'govuk-tag--green',
+  [TaskStatus.IN_PROGRESS]: 'govuk-tag--blue',
+  [TaskStatus.PENDING]: 'govuk-tag--grey',
+  [TaskStatus.BLOCKED]: 'govuk-tag--red',
+};
+
 export default function (app: Application): void {
   const apiClient = new ApiClient();
   const taskService = new TaskService();
@@ -58,6 +65,33 @@ export default function (app: Application): void {
       });
     }
 
+    // Convert tasks into rows for Nunjucks
+    const tasksAsTableRows = [];
+    for (const task of taskPage.content) {
+      tasksAsTableRows.push([
+        { text: task.title },
+        { text: task.dueDateTime },
+        {
+          html: `<strong class="govuk-tag ${TASK_STATUS_TO_GOVUKTAG_CLASS[task.status]}">${TASK_STATUS_MAP_TO_USER_FRIENDLY_VALUES[task.status]}</strong>`,
+        },
+        {
+          html: `
+          <ul class="govuk-summary-list__actions-list">
+            <li class="govuk-summary-list__actions-list-item">
+              <a class="govuk-link" href="/tasks/${task.id}/view">
+                View or Edit<span class="govuk-visually-hidden">View or edit this task</span>
+              </a>
+            </li>
+            <li class="govuk-summary-list__actions-list-item">
+              <a class="govuk-link" href="/tasks/${task.id}/delete">
+                Delete<span class="govuk-visually-hidden">Delete this task</span>
+              </a>
+            </li>
+          </ul>`,
+        },
+      ]);
+    }
+
     res.render('../views/tasks/index.njk', {
       taskPage,
       totalPages: taskPage.totalPages,
@@ -65,6 +99,7 @@ export default function (app: Application): void {
       direction,
       paginationItems,
       statusFilter,
+      tasksAsTableRows,
     });
   });
 
