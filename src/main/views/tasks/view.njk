@@ -93,9 +93,12 @@
         }
       ]
     }) }}
-    {{ govukButton({
-      text: "Delete this task",
-      href: "/tasks/"+task.id+"/delete"
-    }) }}
+    <div class="govuk-button-group">
+      <a class="govuk-link" href="/tasks">See all tasks</a>
+      {{ govukButton({
+        text: "Delete this task",
+        href: "/tasks/"+task.id+"/delete"
+      }) }}
+    </div>
   {% endif %}
 {% endblock %}
