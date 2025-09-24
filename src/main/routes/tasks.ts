@@ -130,8 +130,6 @@ export default function (app: Application): void {
       res.render('../views/tasks/delete.njk', {
         taskId,
         errors: null,
-        // Original values that will remain as
-        // what is actually in the database
         originalValues: {
           title: taskToEdit.title,
         },
