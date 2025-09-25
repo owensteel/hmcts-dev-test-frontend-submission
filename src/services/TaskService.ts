@@ -6,8 +6,8 @@ import { isAxiosError } from 'axios';
 export class TaskService {
   private apiClient: ApiClient;
 
-  constructor() {
-    this.apiClient = new ApiClient();
+  constructor(apiClient?: ApiClient) {
+    this.apiClient = apiClient || new ApiClient();
   }
 
   async create(caseId: number, task: TaskCreate): Promise<Task> {
