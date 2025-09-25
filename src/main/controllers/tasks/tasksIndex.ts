@@ -53,11 +53,20 @@ export default async function tasksIndex(req: Request, res: Response): Promise<v
     ]);
   }
 
+  const statusFilterSelectorOptions = generateTaskStatusSelectorOptions(routeQuery.statusFilter);
+  // Add extra selector option for filtering purposes only
+  statusFilterSelectorOptions.push({
+    // Based on Nunjucks
+    value: 'ANY',
+    text: 'Any status',
+    selected: !routeQuery.statusFilter || routeQuery.statusFilter === 'ANY',
+  });
+
   res.render('tasks/index.njk', {
     taskPage,
     routeQuery,
     tasksAsTableRows,
     paginationItems: TaskViewHelpers.buildPaginationItems(taskPage, routeQuery),
-    statusFilterSelectorOptions: generateTaskStatusSelectorOptions(routeQuery.statusFilter),
+    statusFilterSelectorOptions,
   });
 }
