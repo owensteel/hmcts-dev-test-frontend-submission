@@ -38,6 +38,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@hmcts/properties-volume", "npm:1.1.0"],\
             ["@ministryofjustice/frontend", "virtual:3a02cceef93055271d0890b855d0c93a770c9c876ee9b808cf9e23d8d1b8581b5b6efcfb80a9768d650dfa22f93777eca81ae9ef4de2301b22a7619649eb692a#npm:5.2.0"],\
             ["@types/body-parser", "npm:1.19.5"],\
+            ["@types/chai", "npm:5.2.2"],\
             ["@types/chai-as-promised", "npm:7.1.8"],\
             ["@types/config", "npm:3.3.4"],\
             ["@types/cookie-parser", "npm:1.4.7"],\
@@ -5681,6 +5682,14 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/chai", "npm:4.3.5"]\
           ],\
           "linkType": "HARD"\
+        }],\
+        ["npm:5.2.2", {\
+          "packageLocation": "./.yarn/cache/@types-chai-npm-5.2.2-175f762512-386887bd55.zip/node_modules/@types/chai/",\
+          "packageDependencies": [\
+            ["@types/chai", "npm:5.2.2"],\
+            ["@types/deep-eql", "npm:4.0.2"]\
+          ],\
+          "linkType": "HARD"\
         }]\
       ]],\
       ["@types/chai-as-promised", [\
@@ -5747,6 +5756,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["@types/debug", "npm:4.1.8"],\
             ["@types/ms", "npm:0.7.31"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@types/deep-eql", [\
+        ["npm:4.0.2", {\
+          "packageLocation": "./.yarn/cache/@types-deep-eql-npm-4.0.2-e6bc68cc92-249a27b0bb.zip/node_modules/@types/deep-eql/",\
+          "packageDependencies": [\
+            ["@types/deep-eql", "npm:4.0.2"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -8424,7 +8442,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/__virtual__/chai-as-promised-virtual-9fde23ab5b/0/cache/chai-as-promised-npm-8.0.0-cafe64999f-89a1b97021.zip/node_modules/chai-as-promised/",\
           "packageDependencies": [\
             ["chai-as-promised", "virtual:3a02cceef93055271d0890b855d0c93a770c9c876ee9b808cf9e23d8d1b8581b5b6efcfb80a9768d650dfa22f93777eca81ae9ef4de2301b22a7619649eb692a#npm:8.0.0"],\
-            ["@types/chai", null],\
+            ["@types/chai", "npm:5.2.2"],\
             ["chai", "npm:4.4.1"],\
             ["check-error", "npm:2.0.0"]\
           ],\
@@ -12233,6 +12251,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@hmcts/properties-volume", "npm:1.1.0"],\
             ["@ministryofjustice/frontend", "virtual:3a02cceef93055271d0890b855d0c93a770c9c876ee9b808cf9e23d8d1b8581b5b6efcfb80a9768d650dfa22f93777eca81ae9ef4de2301b22a7619649eb692a#npm:5.2.0"],\
             ["@types/body-parser", "npm:1.19.5"],\
+            ["@types/chai", "npm:5.2.2"],\
             ["@types/chai-as-promised", "npm:7.1.8"],\
             ["@types/config", "npm:3.3.4"],\
             ["@types/cookie-parser", "npm:1.4.7"],\
@@ -17937,7 +17956,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/__virtual__/sinon-chai-virtual-48e3fe6fee/0/cache/sinon-chai-npm-3.7.0-8e6588805e-49a353d8eb.zip/node_modules/sinon-chai/",\
           "packageDependencies": [\
             ["sinon-chai", "virtual:3a02cceef93055271d0890b855d0c93a770c9c876ee9b808cf9e23d8d1b8581b5b6efcfb80a9768d650dfa22f93777eca81ae9ef4de2301b22a7619649eb692a#npm:3.7.0"],\
-            ["@types/chai", null],\
+            ["@types/chai", "npm:5.2.2"],\
             ["@types/sinon", null],\
             ["chai", "npm:4.4.1"],\
             ["sinon", "npm:18.0.0"]\
