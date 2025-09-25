@@ -1,5 +1,6 @@
 import { Task } from '../../models/Task';
 import { TaskPage } from '../../models/TaskPage';
+import { TaskStatus } from '../../models/TaskStatus';
 
 import {
   TASK_EDIT_VALID_HIGHLIGHTED_PROPERTIES,
@@ -12,15 +13,19 @@ export function isValidEditTaskHighlightedProperty(highlightedProperty: string):
 }
 export function getStatusUserFriendlyLabel(status: string): string {
   if (!(status in TASK_STATUS_MAP_TO_USER_FRIENDLY_VALUES)) {
-    throw new Error('Not a recognised Task Status');
+    // fallback
+    return TaskStatus.UNKNOWN;
+  } else {
+    return TASK_STATUS_MAP_TO_USER_FRIENDLY_VALUES[status];
   }
-  return TASK_STATUS_MAP_TO_USER_FRIENDLY_VALUES[status];
 }
 export function getStatusTagClass(status: string): string {
   if (!(status in TASK_STATUS_TO_GOVUKTAG_CLASS)) {
-    throw new Error('Not a recognised Task Status');
+    // fallback
+    return TASK_STATUS_TO_GOVUKTAG_CLASS[TaskStatus.PENDING]; // neutral grey
+  } else {
+    return TASK_STATUS_TO_GOVUKTAG_CLASS[status];
   }
-  return TASK_STATUS_TO_GOVUKTAG_CLASS[status];
 }
 
 export function getAllTaskStatusesWithUserFriendlyLabel(): string[] {
