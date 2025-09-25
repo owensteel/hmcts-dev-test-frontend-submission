@@ -1,6 +1,7 @@
-import { TaskCreateForm } from '../../../models/TaskCreateForm';
+import { TaskCreate } from '../../../models/Task';
 import { TaskStatus } from '../../../models/TaskStatus';
 import { TaskService } from '../../../services/TaskService';
+import { validateTaskCreateAndGetErrors } from '../../util/taskFormValidation';
 
 import { Request, Response } from 'express';
 
@@ -19,19 +20,17 @@ export async function createTaskForm(req: Request, res: Response): Promise<void>
 }
 
 export async function createTaskAction(req: Request, res: Response): Promise<void> {
-  const taskCreateForm: TaskCreateForm = new TaskCreateForm(
-    req.body.title,
-    `${req.body['due-date-time-year']}-${req.body['due-date-time-month'].padStart(2, '0')}-${req.body['due-date-time-day'].padStart(2, '0')}`,
+  const taskCreate: TaskCreate = {
+    title: req.body.title,
+    dueDateTime: `${req.body['due-date-time-year']}-${req.body['due-date-time-month'].padStart(2, '0')}-${req.body['due-date-time-day'].padStart(2, '0')}`,
     // We assume all new tasks are just "todo"
-    TaskStatus.PENDING,
-    presetCaseId,
-    req.body.description
-    // Leave ID property blank so we create this task
-    // and leave the ID generation to the backend
-  );
+    status: TaskStatus.PENDING,
+    caseId: presetCaseId,
+    description: req.body.description,
+  };
 
   // Stop and display validation errors, if any
-  const formValidationErrors = taskCreateForm.validateAndGetErrors();
+  const formValidationErrors = validateTaskCreateAndGetErrors(taskCreate);
   if (formValidationErrors.length > 0) {
     return res.render('tasks/new.njk', {
       errors: formValidationErrors,
@@ -40,7 +39,7 @@ export async function createTaskAction(req: Request, res: Response): Promise<voi
   } else {
     // Submit to backend
     try {
-      await taskService.create(presetCaseId, taskCreateForm);
+      await taskService.create(presetCaseId, taskCreate);
       // Redirect user to updated Tasks list
       res.redirect('/tasks');
     } catch (error) {

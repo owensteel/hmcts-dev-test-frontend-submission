@@ -1,7 +1,5 @@
-import { Task } from '../../../models/Task';
-import { TaskCreateForm } from '../../../models/TaskCreateForm';
+import { Task, TaskCreate, TaskUpdate } from '../../../models/Task';
 import { TaskStatus } from '../../../models/TaskStatus';
-import { TaskUpdateForm } from '../../../models/TaskUpdateForm';
 import { ApiClient } from '../../../services/ApiClient';
 import { TaskService } from '../../../services/TaskService';
 
@@ -20,13 +18,13 @@ describe('TaskService', () => {
     it('should call ApiClient.createTask with correct payload', async () => {
       const caseId = 123;
 
-      const form: TaskCreateForm = new TaskCreateForm(
-        'Test Task',
-        '2025-09-30T00:00:00.000Z',
-        TaskStatus.PENDING,
+      const form: TaskCreate = {
+        title: 'Test Task',
+        dueDateTime: '2025-09-30T00:00:00.000Z',
+        status: TaskStatus.PENDING,
         caseId,
-        'Something to do'
-      );
+        description: 'Something to do',
+      };
 
       const expectedTask: Task = {
         id: 1,
@@ -47,13 +45,13 @@ describe('TaskService', () => {
     it('should call ApiClient.updateTask with correct payload', async () => {
       const caseId = 123;
 
-      const form: TaskUpdateForm = new TaskUpdateForm(
-        'Updated task',
-        '2025-10-30T00:00:00.000Z',
-        TaskStatus.DONE,
+      const form: TaskUpdate = {
+        title: 'Updated task',
+        dueDateTime: '2025-10-30T00:00:00.000Z',
+        status: TaskStatus.DONE,
         caseId,
-        'New description'
-      );
+        description: 'New description',
+      };
 
       const expectedTask: Task = {
         id: 1,

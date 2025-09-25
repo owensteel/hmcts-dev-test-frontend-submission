@@ -1,6 +1,7 @@
-import { TaskUpdateForm } from '../../../models/TaskUpdateForm';
+import { TaskUpdate } from '../../../models/Task';
 import { TaskService } from '../../../services/TaskService';
 import { generateTaskStatusSelectorOptions } from '../../util/commonViewHelpers';
+import { validateTaskUpdateAndGetErrors } from '../../util/taskFormValidation';
 import * as TaskViewHelpers from '../../util/taskViewHelpers';
 
 import { Request, Response } from 'express';
@@ -47,24 +48,24 @@ export async function editTaskAction(req: Request, res: Response): Promise<void>
   if (!TaskViewHelpers.isValidEditTaskHighlightedProperty(highlightedProperty)) {
     res.status(500).render('error');
   } else {
-    const taskUpdateForm: TaskUpdateForm = new TaskUpdateForm();
+    const taskUpdate: TaskUpdate = {};
     // Add properties to form depending on what is submitted
     if ('title' in req.body) {
-      taskUpdateForm.title = req.body.title;
+      taskUpdate.title = req.body.title;
     }
     if ('description' in req.body) {
-      taskUpdateForm.description = req.body.description;
+      taskUpdate.description = req.body.description;
     }
     if ('status' in req.body) {
-      taskUpdateForm.status = req.body.status;
+      taskUpdate.status = req.body.status;
     }
     if ('due-date-time-year' in req.body && 'due-date-time-month' in req.body && 'due-date-time-day' in req.body) {
       const dateInputsCombined = `${req.body['due-date-time-year']}-${req.body['due-date-time-month'].padStart(2, '0')}-${req.body['due-date-time-day'].padStart(2, '0')}`;
-      taskUpdateForm.dueDateTime = dateInputsCombined;
+      taskUpdate.dueDateTime = dateInputsCombined;
     }
 
     // Stop and display validation errors, if any
-    const formValidationErrors = taskUpdateForm.validateAndGetErrors();
+    const formValidationErrors = validateTaskUpdateAndGetErrors(taskUpdate);
     if (formValidationErrors.length > 0) {
       // Make sure original values are up-to-date
       const taskToEdit = await taskService.get(parseInt(taskId));
@@ -83,7 +84,7 @@ export async function editTaskAction(req: Request, res: Response): Promise<void>
     } else {
       // Submit to backend
       try {
-        await taskService.update(Number(taskId), taskUpdateForm);
+        await taskService.update(Number(taskId), taskUpdate);
         res.redirect('/tasks/' + taskId + '/view');
       } catch (error) {
         res.status(500).render('error');
