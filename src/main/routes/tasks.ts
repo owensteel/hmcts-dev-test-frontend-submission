@@ -63,6 +63,7 @@ export default function (app: Application): void {
       routeQuery,
       tasksAsTableRows,
       paginationItems: TaskViewHelpers.buildPaginationItems(taskPage, routeQuery),
+      statusFilterSelectorOptions: TaskViewHelpers.generateTaskStatusSelectorOptions(routeQuery.statusFilter),
     });
   });
 
@@ -138,6 +139,8 @@ export default function (app: Application): void {
             title: taskToEdit.title,
           },
           highlightedProperty,
+          // Generate options for Task Status selector in Nunjucks
+          taskStatusSelectorOptions: TaskViewHelpers.generateTaskStatusSelectorOptions(taskToEdit.status),
         });
       } catch (e) {
         res.status(404).render('not-found');

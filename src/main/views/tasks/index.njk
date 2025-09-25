@@ -116,28 +116,7 @@
                         label: {
                         text: "Only show tasks with a status of"
                         },
-                        items: [
-                            {
-                                value: "ANY",
-                                text: "Any status",
-                                selected: routeQuery.statusFilter == "ANY"
-                            },
-                            {
-                                value: "PENDING",
-                                text: "To do",
-                                selected: routeQuery.statusFilter == "PENDING"
-                            },
-                            {
-                                value: "IN_PROGRESS",
-                                text: "In progress",
-                                selected: routeQuery.statusFilter == "IN_PROGRESS"
-                            },
-                            {
-                                value: "DONE",
-                                text: "Done",
-                                selected: routeQuery.statusFilter == "DONE"
-                            }
-                        ]
+                        items: statusFilterSelectorOptions
                     }) }}
                     <input type="hidden" name="page" value="0"/>
                     {{ govukButton({ text: "Apply sort and filters" }) }}

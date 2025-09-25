@@ -23,6 +23,27 @@ export function getStatusTagClass(status: string): string {
   return TASK_STATUS_TO_GOVUKTAG_CLASS[status];
 }
 
+export function getAllTaskStatusesWithUserFriendlyLabel(): string[] {
+  return Object.keys(TASK_STATUS_MAP_TO_USER_FRIENDLY_VALUES);
+}
+
+export function generateTaskStatusSelectorOptions(selectedStatus?: string): {
+  // Based on Nunjucks
+  value: string;
+  text: string;
+  selected: boolean;
+}[] {
+  const taskStatusSelectorOptions = [];
+  for (const status of getAllTaskStatusesWithUserFriendlyLabel()) {
+    taskStatusSelectorOptions.push({
+      value: status,
+      text: getStatusUserFriendlyLabel(status),
+      selected: selectedStatus === status,
+    });
+  }
+  return taskStatusSelectorOptions;
+}
+
 export interface TaskQuery {
   page: number;
   size: number;

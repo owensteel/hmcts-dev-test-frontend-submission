@@ -121,23 +121,7 @@
         label: {
           text: "Change this task's status"
         },
-        items: [
-          {
-            value: "PENDING",
-            text: "To do",
-            selected: valuesForInputs.status == "PENDING"
-          },
-          {
-            value: "IN_PROGRESS",
-            text: "In progress",
-            selected: valuesForInputs.status == "IN_PROGRESS"
-          },
-          {
-            value: "DONE",
-            text: "Done",
-            selected: valuesForInputs.status == "DONE"
-          }
-        ]
+        items: taskStatusSelectorOptions
       }) }}
         {% endif %}
         <div class="govuk-button-group">
