@@ -23,7 +23,7 @@ export class TaskUpdateForm implements TaskUpdate {
       errors.push({ text: 'Enter a valid due date in the future', href: '#due-date-time' });
     }
 
-    if (this.title && !isValidTaskFormTitle(this.title)) {
+    if (typeof this.title === 'string' && !isValidTaskFormTitle(this.title)) {
       errors.push({ text: 'Enter a task title', href: '#title' });
     }
 
