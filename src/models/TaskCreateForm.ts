@@ -1,3 +1,5 @@
+import { isValidTaskFormDueDateTime, isValidTaskFormTitle } from '../main/util/taskFormValidators';
+
 import { TaskCreate } from './Task';
 import { TaskStatus } from './TaskStatus';
 
@@ -25,12 +27,11 @@ export class TaskCreateForm implements TaskCreate {
   validateAndGetErrors(): { text: string; href: string }[] {
     const errors: { text: string; href: string }[] = [];
 
-    const dueDate = new Date(this.dueDateTime);
-    if (isNaN(dueDate.getTime()) || Date.now() > dueDate.getTime()) {
+    if (!isValidTaskFormDueDateTime(this.dueDateTime)) {
       errors.push({ text: 'Enter a valid due date in the future', href: '#due-date-time' });
     }
 
-    if (!this.title || this.title.trim() === '') {
+    if (!isValidTaskFormTitle(this.title)) {
       errors.push({ text: 'Enter a task title', href: '#title' });
     }
 
