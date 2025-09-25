@@ -5,7 +5,7 @@ import { TaskStatus } from '../../models/TaskStatus';
 import { TaskUpdateForm } from '../../models/TaskUpdateForm';
 import { ApiClient } from '../../services/ApiClient';
 import { TaskService } from '../../services/TaskService';
-import * as TaskViewConfig from '../util/taskViewConfig';
+import * as TaskViewHelpers from '../util/taskViewHelpers';
 
 import { Application } from 'express';
 
@@ -51,7 +51,7 @@ export default function (app: Application): void {
         { text: task.title },
         { text: task.dueDateTime },
         {
-          html: `<strong class="govuk-tag ${TaskViewConfig.getStatusTagClass(task.status)}">${TaskViewConfig.getStatusUserFriendlyLabel(task.status)}</strong>`,
+          html: `<strong class="govuk-tag ${TaskViewHelpers.getStatusTagClass(task.status)}">${TaskViewHelpers.getStatusUserFriendlyLabel(task.status)}</strong>`,
         },
         {
           html: `
@@ -91,8 +91,8 @@ export default function (app: Application): void {
       res.render('../views/tasks/view.njk', {
         task,
         taskStatusUserFriendly: {
-          text: TaskViewConfig.getStatusUserFriendlyLabel(task.status),
-          statusTagClass: TaskViewConfig.getStatusTagClass(task.status),
+          text: TaskViewHelpers.getStatusUserFriendlyLabel(task.status),
+          statusTagClass: TaskViewHelpers.getStatusTagClass(task.status),
         },
       });
     } catch (e) {
@@ -134,7 +134,7 @@ export default function (app: Application): void {
     const { taskId, highlightedProperty } = req.params;
 
     // Check that the specified property to edit is valid
-    if (!TaskViewConfig.isValidEditTaskHighlightedProperty(highlightedProperty)) {
+    if (!TaskViewHelpers.isValidEditTaskHighlightedProperty(highlightedProperty)) {
       res.status(500).render('error');
     } else {
       try {
@@ -166,7 +166,7 @@ export default function (app: Application): void {
     const { taskId, highlightedProperty } = req.params;
 
     // Check that the specified property to edit is valid
-    if (!TaskViewConfig.isValidEditTaskHighlightedProperty(highlightedProperty)) {
+    if (!TaskViewHelpers.isValidEditTaskHighlightedProperty(highlightedProperty)) {
       res.status(500).render('error');
     } else {
       const taskUpdateForm: TaskUpdateForm = new TaskUpdateForm();
