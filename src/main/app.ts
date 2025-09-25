@@ -27,13 +27,17 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Enable CSRF protection (tokens stored in cookies)
-const csrfProtection = csrf({ cookie: true });
-app.use(csrfProtection);
+if (process.env.NODE_ENV !== 'test') {
+  const csrfProtection = csrf({ cookie: true });
+  app.use(csrfProtection);
+}
 
 // Make CSRF token available to all templates
 app.use((req, res, next) => {
   res.setHeader('Cache-Control', 'no-cache, max-age=0, must-revalidate, no-store');
-  res.locals.csrfToken = req.csrfToken();
+  if (process.env.NODE_ENV !== 'test') {
+    res.locals.csrfToken = req.csrfToken();
+  }
   next();
 });
 
