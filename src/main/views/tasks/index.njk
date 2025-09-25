@@ -66,7 +66,7 @@
                     previous: taskPage.number > 0 and {
                         "href": "/tasks/?page=" + (taskPage.number - 1) + "&sortBy=" + routeQuery.sortBy + "&direction=" + routeQuery.direction + "&statusFilter=" + routeQuery.statusFilter
                     },
-                    next: taskPage.number < totalPages - 1 and {
+                    next: taskPage.number < taskPage.totalPages - 1 and {
                         "href": "/tasks/?page=" + (taskPage.number + 1) + "&sortBy=" + routeQuery.sortBy + "&direction=" + routeQuery.direction + "&statusFilter=" + routeQuery.statusFilter
                     },
                     items: paginationItems

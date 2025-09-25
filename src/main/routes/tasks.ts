@@ -63,7 +63,6 @@ export default function (app: Application): void {
 
     res.render('tasks/index.njk', {
       taskPage,
-      totalPages: taskPage.totalPages,
       routeQuery,
       tasksAsTableRows,
       paginationItems: TaskViewHelpers.buildPaginationItems(taskPage, routeQuery),
