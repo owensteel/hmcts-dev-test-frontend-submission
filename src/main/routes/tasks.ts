@@ -30,16 +30,6 @@ export default function (app: Application): void {
       routeQuery.statusFilter
     );
 
-    // Precompute the list of numbered page links
-    const paginationItems = [];
-    for (let i = 0; i < taskPage.totalPages; i++) {
-      paginationItems.push({
-        number: i + 1,
-        href: `/tasks/?page=${i}&sortBy=${routeQuery.sortBy}&direction=${routeQuery.direction}&statusFilter=${routeQuery.statusFilter}`,
-        current: i === taskPage.number,
-      });
-    }
-
     // Convert tasks into rows for Nunjucks
     const tasksAsTableRows = [];
     for (const task of taskPage.content) {
@@ -72,6 +62,7 @@ export default function (app: Application): void {
       totalPages: taskPage.totalPages,
       routeQuery,
       tasksAsTableRows,
+      paginationItems: TaskViewHelpers.buildPaginationItems(taskPage, routeQuery),
     });
   });
 
