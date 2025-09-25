@@ -5,6 +5,11 @@ import { TaskStatus } from '../../models/TaskStatus';
 import { TaskUpdateForm } from '../../models/TaskUpdateForm';
 import { ApiClient } from '../../services/ApiClient';
 import { TaskService } from '../../services/TaskService';
+import {
+  generateTaskStatusSelectorOptions,
+  htmlGovUK_summaryListActionsList,
+  htmlGovUK_tagForStatus,
+} from '../util/commonViewHelpers';
 import * as TaskViewHelpers from '../util/taskViewHelpers';
 
 import { Application } from 'express';
@@ -37,22 +42,21 @@ export default function (app: Application): void {
         { text: task.title },
         { text: task.dueDateTime },
         {
-          html: `<strong class="govuk-tag ${TaskViewHelpers.getStatusTagClass(task.status)}">${TaskViewHelpers.getStatusUserFriendlyLabel(task.status)}</strong>`,
+          html: htmlGovUK_tagForStatus(task.status),
         },
         {
-          html: `
-          <ul class="govuk-summary-list__actions-list">
-            <li class="govuk-summary-list__actions-list-item">
-              <a class="govuk-link" href="/tasks/${task.id}/view">
-                View or Edit<span class="govuk-visually-hidden">View or edit this task</span>
-              </a>
-            </li>
-            <li class="govuk-summary-list__actions-list-item">
-              <a class="govuk-link" href="/tasks/${task.id}/delete">
-                Delete<span class="govuk-visually-hidden">Delete this task</span>
-              </a>
-            </li>
-          </ul>`,
+          html: htmlGovUK_summaryListActionsList([
+            {
+              text: 'View or Edit',
+              href: `/tasks/${task.id}/view`,
+              visuallyHidden: 'View or edit this Task.',
+            },
+            {
+              text: 'Delete',
+              href: `/tasks/${task.id}/delete`,
+              visuallyHidden: 'Delete this Task.',
+            },
+          ]),
         },
       ]);
     }
@@ -63,7 +67,7 @@ export default function (app: Application): void {
       routeQuery,
       tasksAsTableRows,
       paginationItems: TaskViewHelpers.buildPaginationItems(taskPage, routeQuery),
-      statusFilterSelectorOptions: TaskViewHelpers.generateTaskStatusSelectorOptions(routeQuery.statusFilter),
+      statusFilterSelectorOptions: generateTaskStatusSelectorOptions(routeQuery.statusFilter),
     });
   });
 
@@ -140,7 +144,7 @@ export default function (app: Application): void {
           },
           highlightedProperty,
           // Generate options for Task Status selector in Nunjucks
-          taskStatusSelectorOptions: TaskViewHelpers.generateTaskStatusSelectorOptions(taskToEdit.status),
+          taskStatusSelectorOptions: generateTaskStatusSelectorOptions(taskToEdit.status),
         });
       } catch (e) {
         res.status(404).render('not-found');
