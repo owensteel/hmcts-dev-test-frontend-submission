@@ -5,30 +5,9 @@ import { TaskStatus } from '../../models/TaskStatus';
 import { TaskUpdateForm } from '../../models/TaskUpdateForm';
 import { ApiClient } from '../../services/ApiClient';
 import { TaskService } from '../../services/TaskService';
+import * as TaskViewConfig from '../util/taskViewConfig';
 
 import { Application } from 'express';
-
-const TASK_STATUS_MAP_TO_USER_FRIENDLY_VALUES: Record<string, string> = {
-  [TaskStatus.DONE]: 'Done',
-  [TaskStatus.IN_PROGRESS]: 'In progress',
-  [TaskStatus.PENDING]: 'To do',
-  [TaskStatus.BLOCKED]: 'Blocked',
-};
-
-const TASK_EDIT_VALID_HIGHLIGHTED_PROPERTIES: string[] = [
-  'delete-description',
-  'title',
-  'description',
-  'due-date',
-  'status',
-];
-
-const TASK_STATUS_TO_GOVUKTAG_CLASS: Record<string, string> = {
-  [TaskStatus.DONE]: 'govuk-tag--green',
-  [TaskStatus.IN_PROGRESS]: 'govuk-tag--blue',
-  [TaskStatus.PENDING]: 'govuk-tag--grey',
-  [TaskStatus.BLOCKED]: 'govuk-tag--red',
-};
 
 export default function (app: Application): void {
   const apiClient = new ApiClient();
@@ -72,7 +51,7 @@ export default function (app: Application): void {
         { text: task.title },
         { text: task.dueDateTime },
         {
-          html: `<strong class="govuk-tag ${TASK_STATUS_TO_GOVUKTAG_CLASS[task.status]}">${TASK_STATUS_MAP_TO_USER_FRIENDLY_VALUES[task.status]}</strong>`,
+          html: `<strong class="govuk-tag ${TaskViewConfig.getStatusTagClass(task.status)}">${TaskViewConfig.getStatusUserFriendlyLabel(task.status)}</strong>`,
         },
         {
           html: `
@@ -112,8 +91,8 @@ export default function (app: Application): void {
       res.render('../views/tasks/view.njk', {
         task,
         taskStatusUserFriendly: {
-          text: TASK_STATUS_MAP_TO_USER_FRIENDLY_VALUES[task.status],
-          statusTagClass: TASK_STATUS_TO_GOVUKTAG_CLASS[task.status],
+          text: TaskViewConfig.getStatusUserFriendlyLabel(task.status),
+          statusTagClass: TaskViewConfig.getStatusTagClass(task.status),
         },
       });
     } catch (e) {
@@ -155,7 +134,7 @@ export default function (app: Application): void {
     const { taskId, highlightedProperty } = req.params;
 
     // Check that the specified property to edit is valid
-    if (!TASK_EDIT_VALID_HIGHLIGHTED_PROPERTIES.includes(highlightedProperty)) {
+    if (!TaskViewConfig.isValidEditTaskHighlightedProperty(highlightedProperty)) {
       res.status(500).render('error');
     } else {
       try {
@@ -187,7 +166,7 @@ export default function (app: Application): void {
     const { taskId, highlightedProperty } = req.params;
 
     // Check that the specified property to edit is valid
-    if (!TASK_EDIT_VALID_HIGHLIGHTED_PROPERTIES.includes(highlightedProperty)) {
+    if (!TaskViewConfig.isValidEditTaskHighlightedProperty(highlightedProperty)) {
       res.status(500).render('error');
     } else {
       const taskUpdateForm: TaskUpdateForm = new TaskUpdateForm();
