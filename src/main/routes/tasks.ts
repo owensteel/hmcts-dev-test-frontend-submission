@@ -127,7 +127,7 @@ export default function (app: Application): void {
           taskId,
           errors: null,
           // Values to display in the input(s)
-          values: {
+          valuesForInputs: {
             title: taskToEdit.title,
             description: taskToEdit.description,
             status: taskToEdit.status,
@@ -179,7 +179,7 @@ export default function (app: Application): void {
           errors: formValidationErrors,
           // Values to display in the inputs, will now reflect
           // user's submission by this point
-          values: req.body,
+          valuesForInputs: req.body,
           // Original values, what the task's data currently is
           originalValues: {
             title: taskToEdit.title,
@@ -203,7 +203,7 @@ export default function (app: Application): void {
   app.get('/tasks/new', (req, res) => {
     res.render('tasks/new.njk', {
       errors: null,
-      values: {
+      valuesForInputs: {
         title: '',
         description: '',
       },
@@ -229,7 +229,7 @@ export default function (app: Application): void {
     if (formValidationErrors.length > 0) {
       return res.render('tasks/new.njk', {
         errors: formValidationErrors,
-        values: req.body,
+        valuesForInputs: req.body,
       });
     } else {
       // Submit to backend

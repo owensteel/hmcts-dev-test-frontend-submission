@@ -41,14 +41,14 @@
     label: { text: "Task title" },
     id: "title",
     name: "title",
-    value: values.title,
+    value: valuesForInputs.title,
     errorMessage: errors | findError('title')
   }) }}
         {{ govukTextarea({
     label: { text: "Task description" },
     id: "description",
     name: "description",
-    value: values.description,
+    value: valuesForInputs.description,
     errorMessage: errors | findError('description')
   }) }}
         {{ govukDateInput({

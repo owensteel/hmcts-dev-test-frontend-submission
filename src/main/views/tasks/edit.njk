@@ -59,7 +59,7 @@
             text: "Title"
           },
           value: {
-            text: originalValues.title
+            text: originalvaluesForInputs.title
           },
           actions: {
             items: []
@@ -80,7 +80,7 @@
     label: { text: "Task title" },
     id: "title",
     name: "title",
-    value: values.title,
+    value: valuesForInputs.title,
     errorMessage: errors | findError('title')
   }) }}
         {% endif %}
@@ -89,7 +89,7 @@
     label: { text: "Task description" },
     id: "description",
     name: "description",
-    value: values.description,
+    value: valuesForInputs.description,
     errorMessage: errors | findError('description')
   }) }}
         {% endif %}
@@ -125,17 +125,17 @@
           {
             value: "PENDING",
             text: "To do",
-            selected: values.status == "PENDING"
+            selected: valuesForInputs.status == "PENDING"
           },
           {
             value: "IN_PROGRESS",
             text: "In progress",
-            selected: values.status == "IN_PROGRESS"
+            selected: valuesForInputs.status == "IN_PROGRESS"
           },
           {
             value: "DONE",
             text: "Done",
-            selected: values.status == "DONE"
+            selected: valuesForInputs.status == "DONE"
           }
         ]
       }) }}
