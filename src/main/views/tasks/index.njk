@@ -34,7 +34,7 @@
                 href: "/tasks/new",
                 isStartButton: true
             }) }}
-            {% if statusFilter == "ANY" %}
+            {% if routeQuery.statusFilter == "ANY" %}
                 {% if taskPage.totalElements == 1 %}
                     <p class="govuk-body">There is 1 task for this case.</p>
                 {% else %}
@@ -47,7 +47,7 @@
                     <p class="govuk-body">There are {{ taskPage.totalElements }} tasks that match the applied filters.</p>
                 {% endif %}
             {% endif %}
-            {% if taskPage.totalElements > 0 or statusFilter !== "ANY" %}
+            {% if taskPage.totalElements > 0 or routeQuery.statusFilter !== "ANY" %}
                 {% if taskPage.totalElements > 0 %}
                     {{ govukTable({
                         caption: "Tasks",
@@ -64,10 +64,10 @@
                 {% endif %}
                 {{ govukPagination({
                     previous: taskPage.number > 0 and {
-                        "href": "/tasks/?page=" + (taskPage.number - 1) + "&sortBy=" + sortBy + "&direction=" + direction + "&statusFilter=" + statusFilter
+                        "href": "/tasks/?page=" + (taskPage.number - 1) + "&sortBy=" + routeQuery.sortBy + "&direction=" + routeQuery.direction + "&statusFilter=" + routeQuery.statusFilter
                     },
                     next: taskPage.number < totalPages - 1 and {
-                        "href": "/tasks/?page=" + (taskPage.number + 1) + "&sortBy=" + sortBy + "&direction=" + direction + "&statusFilter=" + statusFilter
+                        "href": "/tasks/?page=" + (taskPage.number + 1) + "&sortBy=" + routeQuery.sortBy + "&direction=" + routeQuery.direction + "&statusFilter=" + routeQuery.statusFilter
                     },
                     items: paginationItems
                 }) }}
@@ -82,12 +82,12 @@
                         {
                             value: "dueDateTime",
                             text: "Due date",
-                            selected: sortBy == "dueDateTime"
+                            selected: routeQuery.sortBy == "dueDateTime"
                         },
                         {
                             value: "title",
                             text: "Title A-Z",
-                            selected: sortBy == "title"
+                            selected: routeQuery.sortBy == "title"
                         }
                         ]
                     }) }}
@@ -101,12 +101,12 @@
                         {
                             value: "asc",
                             text: "Ascending order",
-                            selected: direction == "asc"
+                            selected: routeQuery.direction == "asc"
                         },
                         {
                             value: "desc",
                             text: "Descending order",
-                            selected: direction == "desc"
+                            selected: routeQuery.direction == "desc"
                         }
                         ]
                     }) }}
@@ -120,22 +120,22 @@
                             {
                                 value: "ANY",
                                 text: "Any status",
-                                selected: statusFilter == "ANY"
+                                selected: routeQuery.statusFilter == "ANY"
                             },
                             {
                                 value: "PENDING",
                                 text: "To do",
-                                selected: statusFilter == "PENDING"
+                                selected: routeQuery.statusFilter == "PENDING"
                             },
                             {
                                 value: "IN_PROGRESS",
                                 text: "In progress",
-                                selected: statusFilter == "IN_PROGRESS"
+                                selected: routeQuery.statusFilter == "IN_PROGRESS"
                             },
                             {
                                 value: "DONE",
                                 text: "Done",
-                                selected: statusFilter == "DONE"
+                                selected: routeQuery.statusFilter == "DONE"
                             }
                         ]
                     }) }}

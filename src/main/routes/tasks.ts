@@ -17,21 +17,17 @@ export default function (app: Application): void {
 
   // Tasks index
   app.get('/tasks', async (req, res) => {
-    // Get query parameters (they come as strings, so cast)
-    const page = req.query.page ? Number(req.query.page) : 0;
-    const size = req.query.size ? Number(req.query.size) : 5;
-    const sortBy = (req.query.sortBy as string) || 'dueDateTime';
-    const direction = (req.query.direction as 'asc' | 'desc') || 'asc';
-    const statusFilter = req.query.statusFilter ? (req.query.statusFilter as string) : 'ANY';
+    // Get query parameters
+    const routeQuery = TaskViewHelpers.parseTaskQuery(req.query);
 
     // Get pre-sorted tasks for this case
     const taskPage: TaskPage<Task> = await apiClient.getTasksForCase(
       presetCaseId,
-      page,
-      size,
-      sortBy,
-      direction,
-      statusFilter
+      routeQuery.page,
+      routeQuery.size,
+      routeQuery.sortBy,
+      routeQuery.direction,
+      routeQuery.statusFilter
     );
 
     // Precompute the list of numbered page links
@@ -39,7 +35,7 @@ export default function (app: Application): void {
     for (let i = 0; i < taskPage.totalPages; i++) {
       paginationItems.push({
         number: i + 1,
-        href: `/tasks/?page=${i}&sortBy=${sortBy}&direction=${direction}&statusFilter=${statusFilter}`,
+        href: `/tasks/?page=${i}&sortBy=${routeQuery.sortBy}&direction=${routeQuery.direction}&statusFilter=${routeQuery.statusFilter}`,
         current: i === taskPage.number,
       });
     }
@@ -74,10 +70,7 @@ export default function (app: Application): void {
     res.render('../views/tasks/index.njk', {
       taskPage,
       totalPages: taskPage.totalPages,
-      sortBy,
-      direction,
-      paginationItems,
-      statusFilter,
+      routeQuery,
       tasksAsTableRows,
     });
   });

@@ -19,3 +19,21 @@ export function getStatusTagClass(status: string): string {
   }
   return TASK_STATUS_TO_GOVUKTAG_CLASS[status];
 }
+
+export interface TaskQuery {
+  page: number;
+  size: number;
+  sortBy: string;
+  direction: 'asc' | 'desc';
+  statusFilter: string;
+}
+
+export function parseTaskQuery(q: Record<string, unknown>): TaskQuery {
+  return {
+    page: q.page ? Number(q.page) : 0,
+    size: q.size ? Number(q.size) : 5,
+    sortBy: (q.sortBy as string) || 'dueDateTime',
+    direction: (q.direction as 'asc' | 'desc') || 'asc',
+    statusFilter: q.statusFilter ? (q.statusFilter as string) : 'ANY',
+  };
+}
