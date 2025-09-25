@@ -57,7 +57,7 @@ export default function (app: Application): void {
       ]);
     }
 
-    res.render('../views/tasks/index.njk', {
+    res.render('tasks/index.njk', {
       taskPage,
       totalPages: taskPage.totalPages,
       routeQuery,
@@ -72,7 +72,7 @@ export default function (app: Application): void {
 
     try {
       const task = await taskService.get(parseInt(taskId));
-      res.render('../views/tasks/view.njk', {
+      res.render('tasks/view.njk', {
         task,
         taskStatusUserFriendly: {
           text: TaskViewHelpers.getStatusUserFriendlyLabel(task.status),
@@ -90,7 +90,7 @@ export default function (app: Application): void {
 
     try {
       const taskToEdit = await taskService.get(parseInt(taskId));
-      res.render('../views/tasks/delete.njk', {
+      res.render('tasks/delete.njk', {
         taskId,
         errors: null,
         originalValues: {
@@ -123,7 +123,7 @@ export default function (app: Application): void {
     } else {
       try {
         const taskToEdit = await taskService.get(parseInt(taskId));
-        res.render('../views/tasks/edit.njk', {
+        res.render('tasks/edit.njk', {
           taskId,
           errors: null,
           // Values to display in the input(s)
@@ -174,7 +174,7 @@ export default function (app: Application): void {
       if (formValidationErrors.length > 0) {
         // Make sure original values are up-to-date
         const taskToEdit = await taskService.get(parseInt(taskId));
-        return res.render('../views/tasks/edit.njk', {
+        return res.render('tasks/edit.njk', {
           taskId,
           errors: formValidationErrors,
           // Values to display in the inputs, will now reflect
@@ -201,7 +201,7 @@ export default function (app: Application): void {
 
   // Task creation form
   app.get('/tasks/new', (req, res) => {
-    res.render('../views/tasks/new.njk', {
+    res.render('tasks/new.njk', {
       errors: null,
       values: {
         title: '',
@@ -227,7 +227,7 @@ export default function (app: Application): void {
     // Stop and display validation errors, if any
     const formValidationErrors = taskCreateForm.validateAndGetErrors();
     if (formValidationErrors.length > 0) {
-      return res.render('../views/tasks/new.njk', {
+      return res.render('tasks/new.njk', {
         errors: formValidationErrors,
         values: req.body,
       });
