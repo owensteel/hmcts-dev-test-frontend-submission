@@ -22,6 +22,14 @@ export default async function viewTask(req: Request, res: Response): Promise<voi
 
     res.render('tasks/view.njk', viewTaskViewModel);
   } catch (e) {
-    res.status(404).render('not-found');
+    if (e.response.status && e.response.status === 404) {
+      // Handling 404s is particularly important for this
+      // page, as we definitely want the user to know if the
+      // task they're looking for doesn't exist
+      res.status(404).render('not-found');
+    } else {
+      // Generic error
+      res.status(500).render('error');
+    }
   }
 }
