@@ -55,7 +55,6 @@ app.use(
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   (err: HTTPError & { code?: string }, req: express.Request, res: express.Response, _next: express.NextFunction) => {
     // default error handler
-    console.error('Application error', err);
     res.locals.message = err.message;
     res.locals.error = env === 'development' ? err : {};
     res.status(err.status || 500);
