@@ -1,4 +1,5 @@
 import { TaskService } from '../../../services/TaskService';
+import { DeleteTaskViewModel } from '../../viewModels/tasks/DeleteTaskViewModel';
 
 import { Request, Response } from 'express';
 
@@ -9,13 +10,13 @@ export async function deleteTaskForm(req: Request, res: Response): Promise<void>
 
   try {
     const taskToEdit = await taskService.get(parseInt(taskId));
-    res.render('tasks/delete.njk', {
-      taskId,
-      errors: null,
-      originalValues: {
-        title: taskToEdit.title,
-      },
-    });
+
+    const deleteTaskFormViewModel: DeleteTaskViewModel = {
+      taskId: parseInt(taskId),
+      originalValues: taskToEdit,
+    };
+
+    res.render('tasks/delete.njk', deleteTaskFormViewModel);
   } catch (e) {
     res.status(404).render('not-found');
   }

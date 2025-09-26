@@ -4,12 +4,14 @@ import {
   getStatusUserFriendlyLabel,
 } from './taskViewHelpers';
 
-export function generateTaskStatusSelectorOptions(selectedStatus?: string): {
+export interface NunjucksSelectorOption {
   // Based on Nunjucks
   value: string;
   text: string;
   selected: boolean;
-}[] {
+}
+
+export function generateTaskStatusSelectorOptions(selectedStatus?: string): NunjucksSelectorOption[] {
   const taskStatusSelectorOptions = [];
   for (const status of getAllTaskStatusesWithUserFriendlyLabel()) {
     taskStatusSelectorOptions.push({

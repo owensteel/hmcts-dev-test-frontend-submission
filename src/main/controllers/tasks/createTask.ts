@@ -2,6 +2,7 @@ import { TaskCreate } from '../../../models/Task';
 import { TaskStatus } from '../../../models/TaskStatus';
 import { TaskService } from '../../../services/TaskService';
 import { validateTaskCreateAndGetErrors } from '../../util/taskFormValidation';
+import { CreateTaskViewModel } from '../../viewModels/tasks/CreateTaskViewModel';
 
 import { Request, Response } from 'express';
 
@@ -9,14 +10,16 @@ const taskService = new TaskService();
 const presetCaseId = 1;
 
 export async function createTaskForm(req: Request, res: Response): Promise<void> {
-  res.render('tasks/new.njk', {
+  const createTaskViewModel: CreateTaskViewModel = {
     errors: null,
+    // Empty as user will be creating these now
     valuesForInputs: {
       title: '',
       description: '',
     },
-    presetCaseId,
-  });
+    caseId: presetCaseId,
+  };
+  res.render('tasks/new.njk', createTaskViewModel);
 }
 
 export async function createTaskAction(req: Request, res: Response): Promise<void> {
@@ -32,10 +35,16 @@ export async function createTaskAction(req: Request, res: Response): Promise<voi
   // Stop and display validation errors, if any
   const formValidationErrors = validateTaskCreateAndGetErrors(taskCreate);
   if (formValidationErrors.length > 0) {
-    return res.render('tasks/new.njk', {
+    const createTaskViewModel: CreateTaskViewModel = {
       errors: formValidationErrors,
-      valuesForInputs: req.body,
-    });
+      valuesForInputs: {
+        title: req.body.title,
+        description: req.body.description,
+      },
+      caseId: presetCaseId,
+    };
+
+    return res.render('tasks/new.njk', createTaskViewModel);
   } else {
     // Submit to backend
     try {

@@ -50,14 +50,13 @@ export function parseTaskQuery(q: Record<string, unknown>): TaskQuery {
   };
 }
 
-export function buildPaginationItems(
-  taskPage: TaskPage<Task>,
-  routeQuery: TaskQuery
-): {
+export interface PaginationItem {
   number: number;
   href: string;
   current: boolean;
-}[] {
+}
+
+export function buildPaginationItems(taskPage: TaskPage<Task>, routeQuery: TaskQuery): PaginationItem[] {
   const paginationItems = [];
   for (let i = 0; i < taskPage.totalPages; i++) {
     paginationItems.push({

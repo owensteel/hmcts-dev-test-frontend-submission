@@ -18,8 +18,13 @@ function isValidTaskFormTitle(title: string): boolean {
   return !(typeof title === 'string' && title.trim() === '');
 }
 
-export function validateTaskCreateAndGetErrors(taskCreate: TaskCreate): { text: string; href: string }[] {
-  const errors: { text: string; href: string }[] = [];
+export interface validationError {
+  text: string;
+  href: string;
+}
+
+export function validateTaskCreateAndGetErrors(taskCreate: TaskCreate): validationError[] {
+  const errors: validationError[] = [];
 
   if (!isValidTaskFormDueDateTime(taskCreate.dueDateTime)) {
     errors.push(taskFormInvalidDueDateError);
@@ -32,8 +37,8 @@ export function validateTaskCreateAndGetErrors(taskCreate: TaskCreate): { text: 
   return errors;
 }
 
-export function validateTaskUpdateAndGetErrors(taskUpdate: TaskUpdate): { text: string; href: string }[] {
-  const errors: { text: string; href: string }[] = [];
+export function validateTaskUpdateAndGetErrors(taskUpdate: TaskUpdate): validationError[] {
+  const errors: validationError[] = [];
 
   if (taskUpdate.dueDateTime && !isValidTaskFormDueDateTime(taskUpdate.dueDateTime)) {
     errors.push(taskFormInvalidDueDateError);

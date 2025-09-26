@@ -2,11 +2,13 @@ import { Task } from '../../../models/Task';
 import { TaskPage } from '../../../models/TaskPage';
 import { ApiClient } from '../../../services/ApiClient';
 import {
+  NunjucksSelectorOption,
   generateTaskStatusSelectorOptions,
   htmlGovUK_summaryListActionsList,
   htmlGovUK_tagForStatus,
 } from '../../util/commonViewHelpers';
 import * as TaskViewHelpers from '../../util/taskViewHelpers';
+import { TasksIndexViewModel } from '../../viewModels/tasks/TasksIndexViewModel';
 
 import { Request, Response } from 'express';
 
@@ -55,18 +57,20 @@ export default async function tasksIndex(req: Request, res: Response): Promise<v
 
   const statusFilterSelectorOptions = generateTaskStatusSelectorOptions(routeQuery.statusFilter);
   // Add extra selector option for filtering purposes only
-  statusFilterSelectorOptions.push({
-    // Based on Nunjucks
+  const selectorOptionForAnyStatus: NunjucksSelectorOption = {
     value: 'ANY',
     text: 'Any status',
     selected: !routeQuery.statusFilter || routeQuery.statusFilter === 'ANY',
-  });
+  };
+  statusFilterSelectorOptions.push(selectorOptionForAnyStatus);
 
-  res.render('tasks/index.njk', {
+  const tasksIndexViewModel: TasksIndexViewModel = {
     taskPage,
     routeQuery,
     tasksAsTableRows,
     paginationItems: TaskViewHelpers.buildPaginationItems(taskPage, routeQuery),
     statusFilterSelectorOptions,
-  });
+  };
+
+  res.render('tasks/index.njk', tasksIndexViewModel);
 }

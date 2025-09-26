@@ -3,6 +3,7 @@ import { TaskService } from '../../../services/TaskService';
 import { generateTaskStatusSelectorOptions } from '../../util/commonViewHelpers';
 import { validateTaskUpdateAndGetErrors } from '../../util/taskFormValidation';
 import * as TaskViewHelpers from '../../util/taskViewHelpers';
+import { EditTaskViewModel } from '../../viewModels/tasks/EditTaskViewModel';
 
 import { Request, Response } from 'express';
 
@@ -17,24 +18,24 @@ export async function editTaskForm(req: Request, res: Response): Promise<void> {
   } else {
     try {
       const taskToEdit = await taskService.get(parseInt(taskId));
-      res.render('tasks/edit.njk', {
-        taskId,
+
+      const editTaskViewModel: EditTaskViewModel = {
+        taskId: parseInt(taskId),
         errors: null,
         // Values to display in the input(s)
         valuesForInputs: {
           title: taskToEdit.title,
-          description: taskToEdit.description,
+          description: taskToEdit.description || '',
           status: taskToEdit.status,
         },
         // Original values that will remain as
         // what is actually in the database
-        originalValues: {
-          title: taskToEdit.title,
-        },
+        originalValues: taskToEdit,
         highlightedProperty,
-        // Generate options for Task Status selector in Nunjucks
         taskStatusSelectorOptions: generateTaskStatusSelectorOptions(taskToEdit.status),
-      });
+      };
+
+      res.render('tasks/edit.njk', editTaskViewModel);
     } catch (e) {
       res.status(404).render('not-found');
     }
@@ -69,18 +70,21 @@ export async function editTaskAction(req: Request, res: Response): Promise<void>
     if (formValidationErrors.length > 0) {
       // Make sure original values are up-to-date
       const taskToEdit = await taskService.get(parseInt(taskId));
-      return res.render('tasks/edit.njk', {
-        taskId,
+
+      const editTaskViewModel: EditTaskViewModel = {
+        taskId: parseInt(taskId),
         errors: formValidationErrors,
-        // Values to display in the inputs, will now reflect
-        // user's submission by this point
-        valuesForInputs: req.body,
-        // Original values, what the task's data currently is
-        originalValues: {
-          title: taskToEdit.title,
+        valuesForInputs: {
+          title: req.body.title || '',
+          description: req.body.description || '',
+          status: req.body.status || '',
         },
+        originalValues: taskToEdit,
         highlightedProperty,
-      });
+        taskStatusSelectorOptions: generateTaskStatusSelectorOptions(taskToEdit.status),
+      };
+
+      return res.render('tasks/edit.njk', editTaskViewModel);
     } else {
       // Submit to backend
       try {
