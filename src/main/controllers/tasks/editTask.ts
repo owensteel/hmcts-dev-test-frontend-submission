@@ -37,10 +37,16 @@ export async function editTaskForm(req: Request, res: Response): Promise<void> {
 
       res.render('tasks/edit.njk', editTaskViewModel);
     } catch (e) {
-      // Generic error — no 404, because the edit page for
-      // a non-existent task shouldn't have been linked to
-      // in the first place
-      res.status(500).render('error');
+      if (e.response.status && e.response.status === 404) {
+        // Respond with 404 if task not found, so if the
+        // user (for whatever reason) has a direct link to
+        // this page, the user doesn't think it's a temporary
+        // server issue that the form isn't working
+        res.status(404).render('not-found');
+      } else {
+        // Generic error
+        res.status(500).render('error');
+      }
     }
   }
 }
