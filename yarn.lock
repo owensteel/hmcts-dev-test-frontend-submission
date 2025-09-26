@@ -3674,15 +3674,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/chai@npm:^5.2.2":
-  version: 5.2.2
-  resolution: "@types/chai@npm:5.2.2"
-  dependencies:
-    "@types/deep-eql": "*"
-  checksum: 386887bd55ba684572cececd833ed91aba6cce2edd8cc1d8cefa78800b3a74db6dbf5c5c41af041d1d1f3ce672ea30b45c9520f948cdc75431eb7df3fbba8405
-  languageName: node
-  linkType: hard
-
 "@types/config@npm:^3.3.0":
   version: 3.3.4
   resolution: "@types/config@npm:3.3.4"
@@ -3730,13 +3721,6 @@ __metadata:
   dependencies:
     "@types/ms": "*"
   checksum: a9a9bb40a199e9724aa944e139a7659173a9b274798ea7efbc277cb084bc37d32fc4c00877c3496fac4fed70a23243d284adb75c00b5fdabb38a22154d18e5df
-  languageName: node
-  linkType: hard
-
-"@types/deep-eql@npm:*":
-  version: 4.0.2
-  resolution: "@types/deep-eql@npm:4.0.2"
-  checksum: 249a27b0bb22f6aa28461db56afa21ec044fa0e303221a62dff81831b20c8530502175f1a49060f7099e7be06181078548ac47c668de79ff9880241968d43d0c
   languageName: node
   linkType: hard
 
@@ -8974,10 +8958,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"govuk-frontend@npm:^5.12.0":
-  version: 5.12.0
-  resolution: "govuk-frontend@npm:5.12.0"
-  checksum: 8dcfef7efa1d467b60e9cd7530d579a892a7b90b75b28df5b050e31d3554b3048d53b250231f27cd425e9a4880e4fe1a4b1ab77e7ec9aad7679fad613a9258f5
+"govuk-frontend@npm:4.8.0":
+  version: 4.8.0
+  resolution: "govuk-frontend@npm:4.8.0"
+  checksum: e255f924f399319e109347ec4993e0441fc5847a6a73ba44a465b1599c7d03e85c29212743b081ccd60e19224c6301143c77540b8e4bfe615fcb3e162b8663f4
   languageName: node
   linkType: hard
 
@@ -9120,7 +9104,6 @@ __metadata:
     "@hmcts/properties-volume": ^1.0.0
     "@ministryofjustice/frontend": ^5.2.0
     "@types/body-parser": ^1.19.2
-    "@types/chai": ^5.2.2
     "@types/chai-as-promised": ^7.1.5
     "@types/config": ^3.3.0
     "@types/cookie-parser": ^1.4.3
@@ -9160,7 +9143,7 @@ __metadata:
     express: ^4.18.2
     express-nunjucks: ^3.1.1
     glob: ^10.3.3
-    govuk-frontend: ^5.12.0
+    govuk-frontend: 4.8.0
     html-webpack-plugin: ^5.5.3
     husky: ^9.0.0
     jest: ^29.6.2
