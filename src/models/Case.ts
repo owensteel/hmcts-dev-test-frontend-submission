@@ -4,6 +4,7 @@ export interface Case {
   title: string;
   description: string;
   status: string;
+  createdDate: string;
   createdAt: string;
   updatedAt?: string;
 }
