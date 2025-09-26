@@ -11,7 +11,7 @@ export const config = {
 
   Gherkin: {
     features: './src/test/functional/features/**/*.feature',
-    steps: ['./src/test/steps/common.ts'],
+    steps: ['./src/test/functional/steps/common.ts'],
   },
   helpers: {},
 };
