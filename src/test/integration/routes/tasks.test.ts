@@ -74,7 +74,7 @@ describe('Tasks routes', () => {
 
     const res = await request(app).get('/tasks/1/view');
     expect(res.status).toBe(404);
-    expect(res.text).toContain('Page Not Found');
+    expect(res.text).toContain('Page not found');
   });
 
   it('GET /tasks/1/edit/title should return 200 and render edit page for task title', async () => {
@@ -100,7 +100,7 @@ describe('Tasks routes', () => {
 
     const res = await request(app).get('/tasks/1/edit/title');
     expect(res.status).toBe(404);
-    expect(res.text).toContain('Page Not Found');
+    expect(res.text).toContain('Page not found');
   });
 
   it('GET /tasks/1/edit/invalidProperty should return 500 and error message', async () => {
