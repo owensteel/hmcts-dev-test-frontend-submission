@@ -1,8 +1,9 @@
 export interface Case {
-  id: number; // matches backend `@Id`
-  title: string; // example field — adjust to match your backend
-  description?: string;
-  status: string; // e.g "open", "closed"
-  createdAt: string; // ISO date string from backend
+  id: number;
+  caseNumber: string;
+  title: string;
+  description: string;
+  status: string;
+  createdAt: string;
   updatedAt?: string;
 }
