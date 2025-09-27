@@ -48,6 +48,10 @@ export async function createTaskAction(req: Request, res: Response): Promise<voi
   } else {
     // Submit to backend
     try {
+      // Change due date time string format to ISO
+      // now that we know it's a valid date
+      taskCreate.dueDateTime = new Date(taskCreate.dueDateTime).toISOString();
+
       await taskService.create(presetCaseId, taskCreate);
       // Redirect user to updated Tasks list
       res.redirect('/tasks');

@@ -12,7 +12,6 @@ export class TaskService {
 
   async create(caseId: number, task: TaskCreate): Promise<Task> {
     try {
-      task.dueDateTime = new Date(task.dueDateTime).toISOString();
       return await this.apiClient.createTask(caseId, task);
     } catch (e) {
       if (isAxiosError(e)) {
@@ -35,9 +34,6 @@ export class TaskService {
 
   async update(taskId: number, updates: TaskUpdate): Promise<Task> {
     try {
-      if (updates.dueDateTime) {
-        updates.dueDateTime = new Date(updates.dueDateTime).toISOString();
-      }
       return await this.apiClient.updateTask(taskId, updates);
     } catch (e) {
       if (isAxiosError(e)) {

@@ -70,8 +70,7 @@ export async function editTaskAction(req: Request, res: Response): Promise<void>
       taskUpdate.status = req.body.status;
     }
     if ('due-date-time-year' in req.body && 'due-date-time-month' in req.body && 'due-date-time-day' in req.body) {
-      const dateInputsCombined = `${req.body['due-date-time-year']}-${req.body['due-date-time-month'].padStart(2, '0')}-${req.body['due-date-time-day'].padStart(2, '0')}`;
-      taskUpdate.dueDateTime = dateInputsCombined;
+      taskUpdate.dueDateTime = `${req.body['due-date-time-year']}-${req.body['due-date-time-month'].padStart(2, '0')}-${req.body['due-date-time-day'].padStart(2, '0')}`;
     }
 
     // Stop and display validation errors, if any
@@ -96,6 +95,12 @@ export async function editTaskAction(req: Request, res: Response): Promise<void>
       return res.render('tasks/edit.njk', editTaskViewModel);
     } else {
       // Submit to backend
+
+      if (taskUpdate.dueDateTime) {
+        // Change due date time input to ISO format now we know it's a valid date
+        taskUpdate.dueDateTime = new Date(taskUpdate.dueDateTime).toISOString();
+      }
+
       try {
         await taskService.update(Number(taskId), taskUpdate);
         res.redirect('/tasks/' + taskId + '/view');
