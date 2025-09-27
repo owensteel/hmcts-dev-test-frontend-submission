@@ -109,6 +109,38 @@ describe('Tasks routes', () => {
     expect(res.text).toContain('Something went wrong');
   });
 
+  it('POSTing invalid title input to edit action should not break or crash', async () => {
+    // Mock client returning fakeTask
+    mockedApiClient.prototype.getTask.mockResolvedValue(fakeTask);
+
+    const res = await request(app).post('/tasks/1/edit/title').send({
+      title: '', // Invalid empty title
+    });
+
+    // Page should be ok
+    expect(res.status).toBe(200);
+    // Form validation error message
+    expect(res.text).toContain('There is a problem');
+  });
+
+  it('POSTing invalid due date input to edit action should not break or crash', async () => {
+    // Mock client returning fakeTask
+    mockedApiClient.prototype.getTask.mockResolvedValue(fakeTask);
+
+    const res = await request(app)
+      .post('/tasks/1/edit/due-date')
+      .send({
+        ['due-date-time-month']: '00', // Invalid date
+        ['due-date-time-day']: '00',
+        ['due-date-time-year']: '0000',
+      });
+
+    // Page should be ok
+    expect(res.status).toBe(200);
+    // Form validation error message
+    expect(res.text).toContain('There is a problem');
+  });
+
   it('POST /tasks/new should succeed without CSRF in test env', async () => {
     const res = await request(app)
       .post('/tasks/new')
@@ -123,5 +155,21 @@ describe('Tasks routes', () => {
 
     // Controller should redirect after success
     expect(res.status).toBe(302);
+  });
+
+  it('POSTing invalid inputs to /tasks/new should not break or crash', async () => {
+    const res = await request(app)
+      .post('/tasks/new')
+      .send({
+        title: '', // Invalid empty title
+        ['due-date-time-month']: '00', // Invalid date
+        ['due-date-time-day']: '00',
+        ['due-date-time-year']: '0000',
+      });
+
+    // Page should be ok
+    expect(res.status).toBe(200);
+    // Form validation error message
+    expect(res.text).toContain('There is a problem');
   });
 });
