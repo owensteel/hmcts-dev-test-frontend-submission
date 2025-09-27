@@ -1,13 +1,9 @@
 import { Task } from '../../../models/Task';
 import { TaskPage } from '../../../models/TaskPage';
 import { ApiClient } from '../../../services/ApiClient';
-import {
-  NunjucksSelectorOption,
-  generateTaskStatusSelectorOptions,
-  htmlGovUK_summaryListActionsList,
-  htmlGovUK_tagForStatus,
-} from '../../util/commonViewHelpers';
+import { NunjucksSelectorOption, generateTaskStatusSelectorOptions } from '../../util/commonViewHelpers';
 import * as TaskViewHelpers from '../../util/taskViewHelpers';
+import { renderTasksAsTableRows } from '../../util/taskViewHelpers';
 import { TasksIndexViewModel } from '../../viewModels/tasks/TasksIndexViewModel';
 
 import { Request, Response } from 'express';
@@ -31,30 +27,7 @@ export default async function tasksIndex(req: Request, res: Response): Promise<v
     );
 
     // Convert tasks into rows for Nunjucks
-    const tasksAsTableRows = [];
-    for (const task of taskPage.content) {
-      tasksAsTableRows.push([
-        { text: task.title },
-        { text: task.dueDateTime },
-        {
-          html: htmlGovUK_tagForStatus(task.status),
-        },
-        {
-          html: htmlGovUK_summaryListActionsList([
-            {
-              text: 'View or Edit',
-              href: `/tasks/${task.id}/view`,
-              visuallyHidden: 'View or edit this Task.',
-            },
-            {
-              text: 'Delete',
-              href: `/tasks/${task.id}/delete`,
-              visuallyHidden: 'Delete this Task.',
-            },
-          ]),
-        },
-      ]);
-    }
+    const tasksAsTableRows = renderTasksAsTableRows(taskPage.content);
 
     const statusFilterSelectorOptions = generateTaskStatusSelectorOptions(routeQuery.statusFilter);
     // Add extra selector option for filtering purposes only

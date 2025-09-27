@@ -2,6 +2,7 @@ import { Task } from '../../models/Task';
 import { TaskPage } from '../../models/TaskPage';
 import { TaskStatus } from '../../models/TaskStatus';
 
+import { htmlGovUK_summaryListActionsList, htmlGovUK_tagForStatus } from './commonViewHelpers';
 import {
   TASK_EDIT_VALID_HIGHLIGHTED_PROPERTIES,
   TASK_STATUS_MAP_TO_USER_FRIENDLY_VALUES,
@@ -66,4 +67,34 @@ export function buildPaginationItems(taskPage: TaskPage<Task>, routeQuery: TaskQ
     });
   }
   return paginationItems;
+}
+
+export type TaskAsTableRow = { text?: string; html?: string }[];
+
+export function renderTasksAsTableRows(tasks: Task[]): TaskAsTableRow[] {
+  const tasksAsTableRows: TaskAsTableRow[] = [];
+  for (const task of tasks) {
+    tasksAsTableRows.push([
+      { text: task.title },
+      { text: task.dueDateTime },
+      {
+        html: htmlGovUK_tagForStatus(task.status),
+      },
+      {
+        html: htmlGovUK_summaryListActionsList([
+          {
+            text: 'View or Edit',
+            href: `/tasks/${task.id}/view`,
+            visuallyHidden: 'View or edit this Task.',
+          },
+          {
+            text: 'Delete',
+            href: `/tasks/${task.id}/delete`,
+            visuallyHidden: 'Delete this Task.',
+          },
+        ]),
+      },
+    ]);
+  }
+  return tasksAsTableRows;
 }
