@@ -1,6 +1,6 @@
 # HMCTS Dev Test Frontend
 
-The frontend for the brand new HMCTS case management system.
+My attempt at developing a frontend for a HMCTS case management system.
 
 You should be able to run this by running:
 
